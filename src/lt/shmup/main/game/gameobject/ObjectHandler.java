@@ -1,4 +1,4 @@
-package lt.shmup.main.game;
+package lt.shmup.main.game.gameobject;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -25,5 +25,9 @@ public class ObjectHandler {
 
     public void removeObject(GameObject object) {
         this.gameObjects.remove(object);
+    }
+
+    public LinkedList<GameObject> getGameObjects() {
+        return this.gameObjects;
     }
 }
