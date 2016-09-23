@@ -1,8 +1,9 @@
 package lt.shmup.main.game.gameobject;
 
-import lt.shmup.main.game.gameobject.Identifier;
+import lt.shmup.main.game.input.InputListener;
 
 import java.awt.*;
+import java.util.LinkedList;
 
 public abstract class GameObject {
 
@@ -20,6 +21,11 @@ public abstract class GameObject {
      * Game object movement velocities.
      */
     private int velocityX, velocityY;
+
+    /**
+     * Input event listeners.
+     */
+    private LinkedList<InputListener> inputListeners = new LinkedList<>();
 
     public GameObject(int x, int y, Identifier identifier) {
         this.x = x;
@@ -65,6 +71,19 @@ public abstract class GameObject {
 
     public void setVelocityY(int velocityY) {
         this.velocityY = velocityY;
+    }
+
+    public LinkedList<InputListener> getInputListeners() {
+        return this.inputListeners;
+    }
+
+    public void addInputListener(InputListener inputListener) {
+        inputListener.setGameObject(this);
+        this.inputListeners.add(inputListener);
+    }
+
+    public void removeInputListener(InputListener inputListener) {
+        this.inputListeners.remove(inputListener);
     }
 
     public abstract void update();

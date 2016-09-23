@@ -1,9 +1,14 @@
 package lt.shmup.main;
 
+import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.object.Player;
+import lt.shmup.main.game.input.InputEvent;
+import lt.shmup.main.game.input.InputListener;
 import lt.shmup.main.game.input.KeyInput;
+import lt.shmup.main.game.input.events.pressed.MovementPressed;
+import lt.shmup.main.game.input.events.released.MovementReleased;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -30,18 +35,29 @@ public class Game extends Canvas implements Runnable {
      */
     private ObjectHandler objectHandler;
 
+    /**
+     * Key input handling object.
+     */
+    private KeyInput keyInputHandler;
+
     public Game() {
-        objectHandler = new ObjectHandler();
-        this.addKeyListener(new KeyInput(objectHandler));
+        this.objectHandler = new ObjectHandler();
         new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "Shmup", this);
 
-        objectHandler.addObject(
-                new Player(
-                        WINDOW_WIDTH/2 - 32,
-                        WINDOW_HEIGHT/2 - 32,
-                        Identifier.Player
-                )
+        GameObject player = new Player(
+                WINDOW_WIDTH/2 - 32,
+                WINDOW_HEIGHT/2 - 32,
+                Identifier.Player
         );
+
+        InputListener inputListener = new InputListener();
+        inputListener.addKeyPressedEvent(new MovementPressed(15, 5));
+        inputListener.addKeyReleasedEvent(new MovementReleased());
+        player.addInputListener(inputListener);
+
+        this.objectHandler.addObject(player);
+        this.keyInputHandler = new KeyInput(this.objectHandler);
+        this.addKeyListener(this.keyInputHandler);
     }
 
     public synchronized void start() {
