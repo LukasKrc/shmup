@@ -1,6 +1,7 @@
-package lt.shmup.main.game.gameobject;
+package lt.shmup.main.game.gameobject.object;
 
-import lt.shmup.main.game.GameObject;
+import lt.shmup.main.game.gameobject.GameObject;
+import lt.shmup.main.game.gameobject.Identifier;
 
 import java.awt.*;
 
@@ -8,12 +9,12 @@ public class Player extends GameObject {
     public Player(int x, int y, Identifier identifier) {
         super(x, y, identifier);
 
-        setX(100);
     }
 
     @Override
     public void update() {
-
+        this.setX(this.getX() + this.getVelocityX());
+        this.setY(this.getY() + this.getVelocityY());
     }
 
     @Override
