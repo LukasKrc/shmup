@@ -1,8 +1,9 @@
 package lt.shmup.main;
 
-import lt.shmup.main.game.ObjectHandler;
+import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.Identifier;
-import lt.shmup.main.game.gameobject.Player;
+import lt.shmup.main.game.gameobject.object.Player;
+import lt.shmup.main.game.input.KeyInput;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -30,8 +31,17 @@ public class Game extends Canvas implements Runnable {
     private ObjectHandler objectHandler;
 
     public Game() {
-        new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "Shmup", this);
         objectHandler = new ObjectHandler();
+        this.addKeyListener(new KeyInput(objectHandler));
+        new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "Shmup", this);
+
+        objectHandler.addObject(
+                new Player(
+                        WINDOW_WIDTH/2 - 32,
+                        WINDOW_HEIGHT/2 - 32,
+                        Identifier.Player
+                )
+        );
     }
 
     public synchronized void start() {
