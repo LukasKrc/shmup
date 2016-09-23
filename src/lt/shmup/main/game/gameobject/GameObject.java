@@ -1,4 +1,4 @@
-package lt.shmup.main.game;
+package lt.shmup.main.game.gameobject;
 
 import lt.shmup.main.game.gameobject.Identifier;
 
