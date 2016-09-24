@@ -2,7 +2,7 @@ package lt.shmup.main.game.gameobject.movement.handlers;
 
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
 
-public abstract class MovementDecorator extends MovementHandler{
+public abstract class MovementDecorator implements MovementHandler {
 
     private MovementHandler movementHandler;
 

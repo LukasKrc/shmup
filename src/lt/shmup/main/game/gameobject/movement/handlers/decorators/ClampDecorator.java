@@ -8,7 +8,7 @@ import lt.shmup.main.game.gameobject.movement.handlers.MovementDecorator;
 public class ClampDecorator extends MovementDecorator {
 
     public ClampDecorator(MovementHandler movementHandler) {
-        this.setMovementHandler(movementHandler);
+        super(movementHandler);
     }
 
     @Override

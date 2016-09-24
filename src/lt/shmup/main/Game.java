@@ -3,7 +3,8 @@ package lt.shmup.main;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.Identifier;
-import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
+import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
+import lt.shmup.main.game.gameobject.graphics.handlers.GameEntity;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.ClampDecorator;
 import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.PlayerMovement;
@@ -14,17 +15,13 @@ import lt.shmup.main.game.input.InputListener;
 import lt.shmup.main.game.input.KeyInput;
 import lt.shmup.main.game.input.events.pressed.MovementPressed;
 import lt.shmup.main.game.input.events.released.MovementReleased;
-import lt.shmup.main.game.userinterface.HeadsUpDisplay;
+import lt.shmup.main.game.userinterface.InterfaceHandler;
+import lt.shmup.main.game.userinterface.object.HealthBar;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable {
-
-    /**
-     * Game window dimension constants;
-     */
-    public static final int WINDOW_WIDTH = 640, WINDOW_HEIGHT = 480;
 
     /**
      * Main game thread.
@@ -46,13 +43,13 @@ public class Game extends Canvas implements Runnable {
      */
     private KeyInput keyInputHandler;
 
-    private HeadsUpDisplay headsUpDisplay;
+    private InterfaceHandler interfaceHandler;
 
     public Game() {
         this.objectHandler = new ObjectHandler();
         new Window(Utility.WINDOW_WIDTH, Utility.WINDOW_HEIGHT, "Shmup", this);
 
-        this.headsUpDisplay = new HeadsUpDisplay();
+        this.interfaceHandler = new InterfaceHandler();
 
         this.createGameObjects();
 
@@ -66,18 +63,27 @@ public class Game extends Canvas implements Runnable {
         GameObject player = new Player(
                 Utility.WINDOW_WIDTH/2 - 32,
                 Utility.WINDOW_HEIGHT/2 - 32,
+                100,
+                100,
                 Identifier.Player,
-                this.objectHandler,
-                new GraphicsHandler(32, 32, Color.white),
-                new ClampDecorator(new PlayerMovement())
+                new GameEntity(32, 32, Color.white),
+                new ClampDecorator(new PlayerMovement()),
+                new HealthCollision(this.objectHandler)
+        );
+
+        this.interfaceHandler.addInterfaceObject(
+            new HealthBar(player, 15, 15, 200, 30, Color.green, Color.white)
         );
 
         GameObject enemy = new BasicEnemy(
                 Utility.WINDOW_WIDTH/2 - 32,
                 Utility.WINDOW_HEIGHT/2 - 32,
+                100,
+                100,
                 Identifier.Enemy,
-                new GraphicsHandler(16, 16, Color.red),
-                new ReflectDecorator(new EnemyMovement())
+                new GameEntity(16, 16, Color.red),
+                new ReflectDecorator(new EnemyMovement()),
+                null
         );
 
         InputListener inputListener = new InputListener();
@@ -117,8 +123,11 @@ public class Game extends Canvas implements Runnable {
             delta += (now - lastTime) / ns;
             lastTime = now;
             while (delta >= 1) {
-                delta--;
                 update();
+                delta--;
+            }
+            if (running) {
+                render();
             }
             frames++;
 
@@ -132,6 +141,11 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void update() {
+        this.objectHandler.update();
+        this.interfaceHandler.update();
+    }
+
+    private void render() {
         BufferStrategy bufferStrategy = this.getBufferStrategy();
         if (bufferStrategy == null) {
             this.createBufferStrategy(3);
@@ -147,9 +161,8 @@ public class Game extends Canvas implements Runnable {
                     Utility.WINDOW_WIDTH,
                     Utility.WINDOW_HEIGHT
                 );
-                this.objectHandler.update(graphics);
-                this.headsUpDisplay.update();
-                this.headsUpDisplay.render(graphics);
+                this.objectHandler.render(graphics);
+                this.interfaceHandler.render(graphics);
             } finally {
                 graphics.dispose();
             }

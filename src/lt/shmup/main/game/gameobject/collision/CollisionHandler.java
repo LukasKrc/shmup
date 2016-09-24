@@ -1,7 +1,7 @@
-package lt.shmup.main.game.gameobject.movement;
+package lt.shmup.main.game.gameobject.collision;
 
 import lt.shmup.main.game.gameobject.GameObject;
 
-public interface MovementHandler {
+public interface CollisionHandler {
     void update(GameObject gameObject);
 }

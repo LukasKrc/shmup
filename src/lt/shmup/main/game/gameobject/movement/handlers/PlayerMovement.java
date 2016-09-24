@@ -4,7 +4,7 @@ import lt.shmup.main.Utility;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
 
-public class PlayerMovement extends MovementHandler {
+public class PlayerMovement implements MovementHandler {
 
     @Override
     public void update(GameObject gameObject) {

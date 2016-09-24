@@ -1,8 +1,8 @@
 package lt.shmup.main.game.gameobject.object;
 
-import lt.shmup.main.Game;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
+import lt.shmup.main.game.gameobject.collision.CollisionHandler;
 import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
 
@@ -13,11 +13,23 @@ public class BasicEnemy extends GameObject{
     public BasicEnemy(
             int x,
             int y,
+            int health,
+            int maxHealth,
             Identifier identifier,
             GraphicsHandler graphicsHandler,
-            MovementHandler movementHandler
+            MovementHandler movementHandler,
+            CollisionHandler collisionHandler
     ) {
-        super(x, y, identifier, graphicsHandler, movementHandler);
+        super(
+            x,
+            y,
+            health,
+            maxHealth,
+            identifier,
+            graphicsHandler,
+            movementHandler,
+            collisionHandler
+        );
 
         this.setVelocityY(5);
         this.setVelocityX(5);

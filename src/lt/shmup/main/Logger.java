@@ -95,7 +95,7 @@ public class Logger {
         String logMessage = this.logTimeFormat.format(date)
             + ": "
             + message
-            + "\n";
+            + this.lineSeparator;
         try {
             this.logFileWriter.write(logMessage);
             this.logFileWriter.flush();

@@ -1,5 +1,6 @@
 package lt.shmup.main.game.gameobject;
 
+import lt.shmup.main.game.gameobject.collision.CollisionHandler;
 import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
 import lt.shmup.main.game.input.InputListener;
@@ -12,7 +13,7 @@ public abstract class GameObject {
     /**
      * Game object coordinates.
      */
-    private int x, y;
+    private int x, y, maxHealth;
 
     /**
      * Game object type identifier.
@@ -23,6 +24,11 @@ public abstract class GameObject {
      * Game object movement velocities.
      */
     private int velocityX, velocityY;
+
+    /**
+     * Game object health value.
+     */
+    private int health;
 
     /**
      * Input event listeners.
@@ -39,18 +45,29 @@ public abstract class GameObject {
      */
     private MovementHandler movementHandler;
 
+    /**
+     * Game object collision handler.
+     */
+    private CollisionHandler collisionHandler;
+
     public GameObject(
             int x,
             int y,
+            int health,
+            int maxHealth,
             Identifier identifier,
             GraphicsHandler graphicsHandler,
-            MovementHandler movementHandler
+            MovementHandler movementHandler,
+            CollisionHandler collisionHandler
     ) {
         this.x = x;
         this.y = y;
+        this.maxHealth = maxHealth;
         this.identifier = identifier;
         this.graphicsHandler = graphicsHandler;
         this.movementHandler = movementHandler;
+        this.health = health;
+        this.collisionHandler = collisionHandler;
     }
 
     public int getX() {
@@ -106,12 +123,34 @@ public abstract class GameObject {
         this.inputListeners.remove(inputListener);
     }
 
-    public void update(Graphics graphics) {
-        if (this.graphicsHandler != null) {
-            this.graphicsHandler.update(graphics, this);
-        }
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public void update() {
         if (this.movementHandler != null) {
             this.movementHandler.update(this);
+        }
+        if (this.collisionHandler != null) {
+            this.collisionHandler.update(this);
+        }
+    }
+
+    public void render(Graphics graphics) {
+        if (this.graphicsHandler != null) {
+            this.graphicsHandler.render(graphics, this);
         }
     };
 

@@ -5,7 +5,7 @@ import lt.shmup.main.game.gameobject.GameObject;
 import java.awt.event.KeyEvent;
 
 public interface InputEvent {
-    public void handleKeyEvent(
+    void handleKeyEvent(
             KeyEvent keyEvent,
             GameObject gameObject
     );
