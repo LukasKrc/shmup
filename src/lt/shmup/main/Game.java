@@ -3,11 +3,13 @@ package lt.shmup.main;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.Identifier;
+import lt.shmup.main.game.gameobject.object.BasicEnemy;
 import lt.shmup.main.game.gameobject.object.Player;
 import lt.shmup.main.game.input.InputListener;
 import lt.shmup.main.game.input.KeyInput;
 import lt.shmup.main.game.input.events.pressed.MovementPressed;
 import lt.shmup.main.game.input.events.released.MovementReleased;
+import lt.shmup.main.game.userinterface.HeadsUpDisplay;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -17,7 +19,7 @@ public class Game extends Canvas implements Runnable {
     /**
      * Game window dimension constants;
      */
-    private static final int WINDOW_WIDTH = 640, WINDOW_HEIGHT = 480;
+    public static final int WINDOW_WIDTH = 640, WINDOW_HEIGHT = 480;
 
     /**
      * Main game thread.
@@ -39,14 +41,25 @@ public class Game extends Canvas implements Runnable {
      */
     private KeyInput keyInputHandler;
 
+    private HeadsUpDisplay headsUpDisplay;
+
     public Game() {
         this.objectHandler = new ObjectHandler();
         new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "Shmup", this);
 
+        this.headsUpDisplay = new HeadsUpDisplay();
+
         GameObject player = new Player(
                 WINDOW_WIDTH/2 - 32,
                 WINDOW_HEIGHT/2 - 32,
-                Identifier.Player
+                Identifier.Player,
+                this.objectHandler
+        );
+
+        GameObject enemy = new BasicEnemy(
+                WINDOW_WIDTH/2 - 32,
+                WINDOW_HEIGHT/2 - 32,
+                Identifier.Enemy
         );
 
         InputListener inputListener = new InputListener();
@@ -55,6 +68,8 @@ public class Game extends Canvas implements Runnable {
         player.addInputListener(inputListener);
 
         this.objectHandler.addObject(player);
+        this.objectHandler.addObject(enemy);
+
         this.keyInputHandler = new KeyInput(this.objectHandler);
         this.addKeyListener(this.keyInputHandler);
         Logger logger = Logger.getInstance();
@@ -77,6 +92,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void run() {
+        this.requestFocus();
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
@@ -106,7 +122,8 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void update() {
-        objectHandler.update();
+        this.objectHandler.update();
+        this.headsUpDisplay.update();
     }
 
     private void render() {
@@ -120,12 +137,23 @@ public class Game extends Canvas implements Runnable {
             try {
                 graphics.setColor(Color.black);
                 graphics.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-                objectHandler.render(graphics);
+                this.objectHandler.render(graphics);
+                this.headsUpDisplay.render(graphics);
             } finally {
                 graphics.dispose();
             }
             bufferStrategy.show();
         } while (bufferStrategy.contentsLost());
+    }
+
+    public static int clamp(int value, int minimumValue, int maximumValue) {
+        if (value >= maximumValue) {
+            return maximumValue;
+        } else if (value <= minimumValue) {
+            return minimumValue;
+        } else {
+            return value;
+        }
     }
 
     public static void main(String args[]) {
