@@ -4,7 +4,6 @@ import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.object.Player;
-import lt.shmup.main.game.input.InputEvent;
 import lt.shmup.main.game.input.InputListener;
 import lt.shmup.main.game.input.KeyInput;
 import lt.shmup.main.game.input.events.pressed.MovementPressed;
@@ -58,6 +57,8 @@ public class Game extends Canvas implements Runnable {
         this.objectHandler.addObject(player);
         this.keyInputHandler = new KeyInput(this.objectHandler);
         this.addKeyListener(this.keyInputHandler);
+        Logger logger = Logger.getInstance();
+        logger.log("Game started");
     }
 
     public synchronized void start() {

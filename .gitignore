@@ -45,3 +45,5 @@ fabric.properties
 
 .idea
 *.iml
+
+/src/lt.shmup/log
