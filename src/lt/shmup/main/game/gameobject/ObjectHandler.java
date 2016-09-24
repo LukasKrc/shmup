@@ -7,15 +7,9 @@ public class ObjectHandler {
 
     private LinkedList<GameObject> gameObjects = new LinkedList<>();
 
-    public void update() {
+    public void update(Graphics graphics) {
         for (GameObject gameObject : gameObjects) {
-            gameObject.update();
-        }
-    }
-
-    public void render(Graphics g) {
-        for (GameObject gameObject : gameObjects) {
-            gameObject.render(g);
+            gameObject.update(graphics);
         }
     }
 

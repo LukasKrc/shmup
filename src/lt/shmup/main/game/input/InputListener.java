@@ -15,7 +15,7 @@ public class InputListener {
     private LinkedList<InputEvent> keyReleasedEvents = new LinkedList<>();
 
     /**
-     * Game objects that gets manipulated by this input listener.
+     * Game object that gets manipulated by this input listener.
      */
     private GameObject gameObject;
 

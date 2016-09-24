@@ -3,6 +3,11 @@ package lt.shmup.main;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.Identifier;
+import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
+import lt.shmup.main.game.gameobject.movement.handlers.decorators.ClampDecorator;
+import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
+import lt.shmup.main.game.gameobject.movement.handlers.PlayerMovement;
+import lt.shmup.main.game.gameobject.movement.handlers.decorators.ReflectDecorator;
 import lt.shmup.main.game.gameobject.object.BasicEnemy;
 import lt.shmup.main.game.gameobject.object.Player;
 import lt.shmup.main.game.input.InputListener;
@@ -45,21 +50,34 @@ public class Game extends Canvas implements Runnable {
 
     public Game() {
         this.objectHandler = new ObjectHandler();
-        new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "Shmup", this);
+        new Window(Utility.WINDOW_WIDTH, Utility.WINDOW_HEIGHT, "Shmup", this);
 
         this.headsUpDisplay = new HeadsUpDisplay();
 
+        this.createGameObjects();
+
+        this.keyInputHandler = new KeyInput(this.objectHandler);
+        this.addKeyListener(this.keyInputHandler);
+        Logger logger = Logger.getInstance();
+        logger.log("Game started");
+    }
+
+    private void createGameObjects() {
         GameObject player = new Player(
-                WINDOW_WIDTH/2 - 32,
-                WINDOW_HEIGHT/2 - 32,
+                Utility.WINDOW_WIDTH/2 - 32,
+                Utility.WINDOW_HEIGHT/2 - 32,
                 Identifier.Player,
-                this.objectHandler
+                this.objectHandler,
+                new GraphicsHandler(32, 32, Color.white),
+                new ClampDecorator(new PlayerMovement())
         );
 
         GameObject enemy = new BasicEnemy(
-                WINDOW_WIDTH/2 - 32,
-                WINDOW_HEIGHT/2 - 32,
-                Identifier.Enemy
+                Utility.WINDOW_WIDTH/2 - 32,
+                Utility.WINDOW_HEIGHT/2 - 32,
+                Identifier.Enemy,
+                new GraphicsHandler(16, 16, Color.red),
+                new ReflectDecorator(new EnemyMovement())
         );
 
         InputListener inputListener = new InputListener();
@@ -69,11 +87,6 @@ public class Game extends Canvas implements Runnable {
 
         this.objectHandler.addObject(player);
         this.objectHandler.addObject(enemy);
-
-        this.keyInputHandler = new KeyInput(this.objectHandler);
-        this.addKeyListener(this.keyInputHandler);
-        Logger logger = Logger.getInstance();
-        logger.log("Game started");
     }
 
     public synchronized void start() {
@@ -104,11 +117,8 @@ public class Game extends Canvas implements Runnable {
             delta += (now - lastTime) / ns;
             lastTime = now;
             while (delta >= 1) {
-                update();
                 delta--;
-            }
-            if (running) {
-                render();
+                update();
             }
             frames++;
 
@@ -122,11 +132,6 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void update() {
-        this.objectHandler.update();
-        this.headsUpDisplay.update();
-    }
-
-    private void render() {
         BufferStrategy bufferStrategy = this.getBufferStrategy();
         if (bufferStrategy == null) {
             this.createBufferStrategy(3);
@@ -136,24 +141,20 @@ public class Game extends Canvas implements Runnable {
         do {
             try {
                 graphics.setColor(Color.black);
-                graphics.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-                this.objectHandler.render(graphics);
+                graphics.fillRect(
+                    0,
+                    0,
+                    Utility.WINDOW_WIDTH,
+                    Utility.WINDOW_HEIGHT
+                );
+                this.objectHandler.update(graphics);
+                this.headsUpDisplay.update();
                 this.headsUpDisplay.render(graphics);
             } finally {
                 graphics.dispose();
             }
             bufferStrategy.show();
         } while (bufferStrategy.contentsLost());
-    }
-
-    public static int clamp(int value, int minimumValue, int maximumValue) {
-        if (value >= maximumValue) {
-            return maximumValue;
-        } else if (value <= minimumValue) {
-            return minimumValue;
-        } else {
-            return value;
-        }
     }
 
     public static void main(String args[]) {

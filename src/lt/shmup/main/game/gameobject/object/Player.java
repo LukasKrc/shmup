@@ -4,6 +4,9 @@ import lt.shmup.main.Game;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.ObjectHandler;
+import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
+import lt.shmup.main.game.gameobject.movement.MovementHandler;
+import lt.shmup.main.game.gameobject.movement.handlers.PlayerMovement;
 import lt.shmup.main.game.userinterface.HeadsUpDisplay;
 
 import java.awt.*;
@@ -16,26 +19,12 @@ public class Player extends GameObject {
             int x,
             int y,
             Identifier identifier,
-            ObjectHandler objectHandler
+            ObjectHandler objectHandler,
+            GraphicsHandler graphicsHandler,
+            MovementHandler movementHandler
     ) {
-        super(x, y, identifier);
+        super(x, y, identifier, graphicsHandler, movementHandler);
         this.objectHandler = objectHandler;
-    }
-
-    @Override
-    public void update() {
-        this.setX(this.getX() + this.getVelocityX());
-        this.setY(this.getY() + this.getVelocityY());
-
-        this.setX(Game.clamp(this.getX(), 0, Game.WINDOW_WIDTH));
-        this.setY(Game.clamp(this.getY(), 0, Game.WINDOW_HEIGHT));
-        this.handleCollission();
-    }
-
-    @Override
-    public void render(Graphics g) {
-        g.setColor(Color.white);
-        g.fillRect(this.getX(), this.getY(), 32, 32);
     }
 
     @Override

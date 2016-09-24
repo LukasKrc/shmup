@@ -6,10 +6,10 @@ import lt.shmup.main.game.gameobject.ObjectHandler;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class KeyInput extends KeyAdapter{
+public class KeyInput extends KeyAdapter {
 
     /**
-     * List of game objects that are aware to keyboard input.
+     * Game object handler.
      */
     private ObjectHandler objectHandler;
 

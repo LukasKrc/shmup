@@ -1,5 +1,7 @@
 package lt.shmup.main.game.gameobject;
 
+import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
+import lt.shmup.main.game.gameobject.movement.MovementHandler;
 import lt.shmup.main.game.input.InputListener;
 
 import java.awt.*;
@@ -27,10 +29,28 @@ public abstract class GameObject {
      */
     private LinkedList<InputListener> inputListeners = new LinkedList<>();
 
-    public GameObject(int x, int y, Identifier identifier) {
+    /**
+     * Game object graphics handler.
+     */
+    private GraphicsHandler graphicsHandler;
+
+    /**
+     * Game object movement handler.
+     */
+    private MovementHandler movementHandler;
+
+    public GameObject(
+            int x,
+            int y,
+            Identifier identifier,
+            GraphicsHandler graphicsHandler,
+            MovementHandler movementHandler
+    ) {
         this.x = x;
         this.y = y;
         this.identifier = identifier;
+        this.graphicsHandler = graphicsHandler;
+        this.movementHandler = movementHandler;
     }
 
     public int getX() {
@@ -86,7 +106,14 @@ public abstract class GameObject {
         this.inputListeners.remove(inputListener);
     }
 
-    public abstract void update();
-    public abstract void render(Graphics g);
+    public void update(Graphics graphics) {
+        if (this.graphicsHandler != null) {
+            this.graphicsHandler.update(graphics, this);
+        }
+        if (this.movementHandler != null) {
+            this.movementHandler.update(this);
+        }
+    };
+
     public abstract Rectangle getBounds();
 }
