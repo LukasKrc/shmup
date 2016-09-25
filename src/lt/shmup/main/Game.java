@@ -31,7 +31,7 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
 
     /**
-     * Flag that defines whether game is runnning.
+     * Flag that defines whether game is running.
      */
     private boolean running = false;
 
@@ -45,7 +45,15 @@ public class Game extends Canvas implements Runnable {
      */
     private KeyInput keyInputHandler;
 
+    /**
+     * User interface object handler.
+     */
     private InterfaceHandler interfaceHandler;
+
+    /**
+     * Log handler.
+     */
+    private Logger logger;
 
     public Game() {
         this.objectHandler = new ObjectHandler();
@@ -57,8 +65,8 @@ public class Game extends Canvas implements Runnable {
 
         this.keyInputHandler = new KeyInput(this.objectHandler);
         this.addKeyListener(this.keyInputHandler);
-        Logger logger = Logger.getInstance();
-        logger.log("Game started");
+        this.logger = Logger.getInstance();
+        this.logger.log("Game started");
     }
 
     private void createGameObjects() {
@@ -145,8 +153,12 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void update() {
-        this.objectHandler.update();
-        this.interfaceHandler.update();
+        try {
+            this.objectHandler.update();
+            this.interfaceHandler.update();
+        } catch (Exception e) {
+            this.logger.logException(e);
+        }
     }
 
     private void render() {
@@ -167,6 +179,8 @@ public class Game extends Canvas implements Runnable {
                 );
                 this.objectHandler.render(graphics);
                 this.interfaceHandler.render(graphics);
+            } catch (Exception e) {
+                this.logger.logException(e);
             } finally {
                 graphics.dispose();
             }
