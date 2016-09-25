@@ -2,6 +2,7 @@ package lt.shmup.main;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,14 +13,15 @@ public class Logger {
     private BufferedWriter logFileWriter;
     private DateFormat logTimeFormat;
     private String lineSeparator;
+    private String pathSeparator = File.separator;
 
     private Logger() {
+        this.lineSeparator = System.getProperty("line.separator");
         this.logFolder = this.getLogFolder();
         this.createLogDirectory();
         File file = this.createLogFile();
         this.logFileWriter = this.createFileWriter(file);
         this.logTimeFormat = new SimpleDateFormat("HH:mm:ss");
-        this.lineSeparator = System.getProperty("line.separator");
     }
 
     private void createLogDirectory() {
@@ -70,8 +72,13 @@ public class Logger {
                 .getProtectionDomain()
                 .getCodeSource()
                 .getLocation();
-        location.getFile();
-        return location.getFile() + "logs/";
+        String path = "";
+        try {
+            path = Paths.get(location.toURI()).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return path + this.pathSeparator + "logs" + this.pathSeparator;
     }
 
     private static Logger instance;
