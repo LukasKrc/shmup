@@ -2,6 +2,7 @@ package lt.shmup.main.game.gameobject.object;
 
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
+import lt.shmup.main.game.gameobject.behaviour.BehaviourHandler;
 import lt.shmup.main.game.gameobject.collision.CollisionHandler;
 import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
@@ -9,6 +10,8 @@ import lt.shmup.main.game.gameobject.movement.MovementHandler;
 import java.awt.*;
 
 public class BasicEnemy extends GameObject{
+
+    private BehaviourHandler behaviourHandler;
 
     public BasicEnemy(
             int x,
@@ -18,7 +21,8 @@ public class BasicEnemy extends GameObject{
             Identifier identifier,
             GraphicsHandler graphicsHandler,
             MovementHandler movementHandler,
-            CollisionHandler collisionHandler
+            CollisionHandler collisionHandler,
+            BehaviourHandler behaviourHandler
     ) {
         super(
             x,
@@ -31,7 +35,16 @@ public class BasicEnemy extends GameObject{
             collisionHandler
         );
 
+        this.behaviourHandler = behaviourHandler;
         this.setVelocityX(5);
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        if (this.behaviourHandler != null) {
+            behaviourHandler.update(this);
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package lt.shmup.main;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.Identifier;
+import lt.shmup.main.game.gameobject.behaviour.handlers.BasicEnemyBehaviour;
 import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
 import lt.shmup.main.game.gameobject.graphics.handlers.GameEntity;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.ClampDecorator;
@@ -84,7 +85,8 @@ public class Game extends Canvas implements Runnable {
             Identifier.Enemy,
             new GameEntity(16, 16, Color.red),
             new ReflectDecorator(new EnemyMovement()),
-            new HealthCollision(this.objectHandler)
+            new HealthCollision(this.objectHandler),
+            new BasicEnemyBehaviour(this.objectHandler)
         );
 
         InputListener inputListener = new InputListener();

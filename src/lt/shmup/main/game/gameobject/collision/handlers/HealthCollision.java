@@ -1,14 +1,16 @@
 package lt.shmup.main.game.gameobject.collision.handlers;
 
-import lt.shmup.main.Game;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.collision.CollisionHandler;
 
+import java.util.LinkedList;
+
 public class HealthCollision implements CollisionHandler {
 
     private ObjectHandler objectHandler;
+    private LinkedList<GameObject> alreadyCollidedObjects = new LinkedList<>();
 
     public HealthCollision(ObjectHandler objectHandler) {
         this.objectHandler = objectHandler;
@@ -19,13 +21,14 @@ public class HealthCollision implements CollisionHandler {
         for (
             GameObject newGameObject : this.objectHandler.getGameObjects()
         ) {
-            if (!this.shouldColide(gameObject, newGameObject)) {
+            if (!this.shouldCollide(gameObject, newGameObject)) {
                 continue;
             }
             if (
                 gameObject.getBounds().intersects(newGameObject.getBounds())
             ) {
                 this.handleGameObjectCollision(gameObject, newGameObject);
+                this.alreadyCollidedObjects.add(newGameObject);
             }
 
             if (gameObject.getHealth() <= 0) {
@@ -38,7 +41,9 @@ public class HealthCollision implements CollisionHandler {
             GameObject gameObject,
             GameObject otherGameObject
     ) {
-        if (gameObject.getIdentifier() == Identifier.PlayerProjectile) {
+        if (gameObject.getIdentifier() == Identifier.PlayerProjectile
+            || gameObject.getIdentifier() == Identifier.EnemyProjectile
+        ) {
             objectHandler.removeObject(gameObject);
             otherGameObject.setHealth(otherGameObject.getHealth() - 50);
         } else {
@@ -46,16 +51,24 @@ public class HealthCollision implements CollisionHandler {
         }
     }
 
-    private boolean shouldColide(
+    private boolean shouldCollide(
             GameObject firstGameObject,
             GameObject secondGameObject
     ) {
+        if (this.alreadyCollidedObjects.indexOf(secondGameObject) != -1) {
+            return false;
+        }
         if (firstGameObject == secondGameObject) {
             return false;
         }
         if (firstGameObject.getIdentifier() == Identifier.Player
-            && secondGameObject.getIdentifier() == Identifier.PlayerProjectile)
-        {
+            && secondGameObject.getIdentifier() == Identifier.PlayerProjectile
+        ) {
+            return false;
+        }
+        if (firstGameObject.getIdentifier() == Identifier.Enemy
+            && secondGameObject.getIdentifier() == Identifier.EnemyProjectile
+        ) {
             return false;
         }
 

@@ -36,7 +36,7 @@ public class FireEvent implements InputEvent{
                 10,
                 10,
                 Identifier.PlayerProjectile,
-                new GameEntity(2, 4, Color.red),
+                new GameEntity(2, 4, Color.blue),
                 new OutOfBoundsDecorator(
                     new EnemyMovement(),
                     this.objectHandler
