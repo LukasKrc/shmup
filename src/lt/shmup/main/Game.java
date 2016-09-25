@@ -13,6 +13,7 @@ import lt.shmup.main.game.gameobject.object.BasicEnemy;
 import lt.shmup.main.game.gameobject.object.Player;
 import lt.shmup.main.game.input.InputListener;
 import lt.shmup.main.game.input.KeyInput;
+import lt.shmup.main.game.input.events.FireEvent;
 import lt.shmup.main.game.input.events.pressed.MovementPressed;
 import lt.shmup.main.game.input.events.released.MovementReleased;
 import lt.shmup.main.game.userinterface.InterfaceHandler;
@@ -61,14 +62,14 @@ public class Game extends Canvas implements Runnable {
 
     private void createGameObjects() {
         GameObject player = new Player(
-                Utility.WINDOW_WIDTH/2 - 32,
-                Utility.WINDOW_HEIGHT/2 - 32,
-                100,
-                100,
-                Identifier.Player,
-                new GameEntity(32, 32, Color.white),
-                new ClampDecorator(new PlayerMovement()),
-                new HealthCollision(this.objectHandler)
+            Utility.WINDOW_WIDTH/2 - 32,
+            Utility.WINDOW_HEIGHT/2 - 32,
+            100,
+            100,
+            Identifier.Player,
+            new GameEntity(32, 32, Color.white),
+            new ClampDecorator(new PlayerMovement()),
+            new HealthCollision(this.objectHandler)
         );
 
         this.interfaceHandler.addInterfaceObject(
@@ -76,19 +77,20 @@ public class Game extends Canvas implements Runnable {
         );
 
         GameObject enemy = new BasicEnemy(
-                Utility.WINDOW_WIDTH/2 - 32,
-                Utility.WINDOW_HEIGHT/2 - 32,
-                100,
-                100,
-                Identifier.Enemy,
-                new GameEntity(16, 16, Color.red),
-                new ReflectDecorator(new EnemyMovement()),
-                null
+            70,
+            70,
+            100,
+            100,
+            Identifier.Enemy,
+            new GameEntity(16, 16, Color.red),
+            new ReflectDecorator(new EnemyMovement()),
+            new HealthCollision(this.objectHandler)
         );
 
         InputListener inputListener = new InputListener();
         inputListener.addKeyPressedEvent(new MovementPressed(15, 5));
         inputListener.addKeyReleasedEvent(new MovementReleased());
+        inputListener.addKeyPressedEvent(new FireEvent(objectHandler));
         player.addInputListener(inputListener);
 
         this.objectHandler.addObject(player);

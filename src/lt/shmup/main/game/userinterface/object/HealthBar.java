@@ -49,8 +49,6 @@ public class HealthBar implements InterfaceObject {
         float healthPercent = (float) gameObject.getHealth()
             / (float) gameObject.getMaxHealth();
         int barWidth = (int) (this.width * healthPercent);
-        System.out.println(gameObject.getHealth());
-        System.out.println(barWidth);
         graphics.fillRect(
             this.positionX,
             this.positionY,

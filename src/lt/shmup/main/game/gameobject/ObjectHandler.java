@@ -6,11 +6,16 @@ import java.util.LinkedList;
 public class ObjectHandler {
 
     private LinkedList<GameObject> gameObjects = new LinkedList<>();
+    private LinkedList<GameObject> objectAddBuffer = new LinkedList<>();
+    private LinkedList<GameObject> objectRemoveBuffer = new LinkedList<>();
 
     public void update() {
         for (GameObject gameObject : gameObjects) {
             gameObject.update();
         }
+        this.gameObjects.addAll(this.objectAddBuffer);
+        this.gameObjects.removeAll(this.objectRemoveBuffer);
+        this.objectAddBuffer.clear();
     }
 
     public void render(Graphics graphics) {
@@ -20,11 +25,11 @@ public class ObjectHandler {
     }
 
     public void addObject(GameObject object) {
-        this.gameObjects.add(object);
+        this.objectAddBuffer.add(object);
     }
 
     public void removeObject(GameObject object) {
-        this.gameObjects.remove(object);
+        this.objectRemoveBuffer.add(object);
     }
 
     public LinkedList<GameObject> getGameObjects() {
