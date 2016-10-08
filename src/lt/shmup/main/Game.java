@@ -5,7 +5,7 @@ import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.behaviour.handlers.BasicEnemyBehaviour;
 import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
-import lt.shmup.main.game.gameobject.graphics.handlers.GameEntity;
+import lt.shmup.main.game.gameobject.graphics.handlers.GameObjectGraphics;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.ClampDecorator;
 import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.PlayerMovement;
@@ -13,7 +13,7 @@ import lt.shmup.main.game.gameobject.movement.handlers.decorators.ReflectDecorat
 import lt.shmup.main.game.gameobject.object.BasicEnemy;
 import lt.shmup.main.game.gameobject.object.Player;
 import lt.shmup.main.game.input.InputListener;
-import lt.shmup.main.game.input.KeyInput;
+import lt.shmup.main.game.input.KeyInputHandler;
 import lt.shmup.main.game.input.events.FireEvent;
 import lt.shmup.main.game.input.events.pressed.MovementPressed;
 import lt.shmup.main.game.input.events.released.MovementReleased;
@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable {
     /**
      * Key input handling object.
      */
-    private KeyInput keyInputHandler;
+    private KeyInputHandler keyInputHandlerHandler;
 
     /**
      * User interface object handler.
@@ -63,8 +63,8 @@ public class Game extends Canvas implements Runnable {
 
         this.createGameObjects();
 
-        this.keyInputHandler = new KeyInput(this.objectHandler);
-        this.addKeyListener(this.keyInputHandler);
+        this.keyInputHandlerHandler = new KeyInputHandler(this.objectHandler);
+        this.addKeyListener(this.keyInputHandlerHandler);
         this.logger = Logger.getInstance();
         this.logger.log("Game started");
     }
@@ -76,7 +76,7 @@ public class Game extends Canvas implements Runnable {
             100,
             100,
             Identifier.Player,
-            new GameEntity(32, 32, Color.white),
+            new GameObjectGraphics(32, 32, Color.white),
             new ClampDecorator(new PlayerMovement()),
             new HealthCollision(this.objectHandler)
         );
@@ -91,7 +91,7 @@ public class Game extends Canvas implements Runnable {
             100,
             100,
             Identifier.Enemy,
-            new GameEntity(16, 16, Color.red),
+            new GameObjectGraphics(16, 16, Color.red),
             new ReflectDecorator(new EnemyMovement()),
             new HealthCollision(this.objectHandler),
             new BasicEnemyBehaviour(this.objectHandler)

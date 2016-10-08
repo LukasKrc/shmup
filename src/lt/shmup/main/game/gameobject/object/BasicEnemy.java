@@ -14,15 +14,15 @@ public class BasicEnemy extends GameObject{
     private BehaviourHandler behaviourHandler;
 
     public BasicEnemy(
-            int x,
-            int y,
-            int health,
-            int maxHealth,
-            Identifier identifier,
-            GraphicsHandler graphicsHandler,
-            MovementHandler movementHandler,
-            CollisionHandler collisionHandler,
-            BehaviourHandler behaviourHandler
+        int x,
+        int y,
+        int health,
+        int maxHealth,
+        Identifier identifier,
+        GraphicsHandler graphicsHandler,
+        MovementHandler movementHandler,
+        CollisionHandler collisionHandler,
+        BehaviourHandler behaviourHandler
     ) {
         super(
             x,

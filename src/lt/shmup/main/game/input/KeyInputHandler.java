@@ -6,14 +6,14 @@ import lt.shmup.main.game.gameobject.ObjectHandler;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class KeyInput extends KeyAdapter {
+public class KeyInputHandler extends KeyAdapter {
 
     /**
      * Game object handler.
      */
     private ObjectHandler objectHandler;
 
-    public KeyInput(ObjectHandler objectHandler) {
+    public KeyInputHandler(ObjectHandler objectHandler) {
         this.objectHandler = objectHandler;
     }
 

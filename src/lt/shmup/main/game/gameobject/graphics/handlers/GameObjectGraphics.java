@@ -5,12 +5,12 @@ import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
 
 import java.awt.*;
 
-public class GameEntity implements GraphicsHandler {
+public class GameObjectGraphics implements GraphicsHandler {
 
     private int width, height;
     private Color color;
 
-    public GameEntity(int width, int height, Color color) {
+    public GameObjectGraphics(int width, int height, Color color) {
         this.width = width;
         this.height = height;
         this.color = color;

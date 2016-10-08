@@ -4,7 +4,7 @@ import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
-import lt.shmup.main.game.gameobject.graphics.handlers.GameEntity;
+import lt.shmup.main.game.gameobject.graphics.handlers.GameObjectGraphics;
 import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.OutOfBoundsDecorator;
 import lt.shmup.main.game.gameobject.object.Projectile;
@@ -13,7 +13,7 @@ import lt.shmup.main.game.input.InputEvent;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class FireEvent implements InputEvent{
+public class FireEvent implements InputEvent {
 
     private ObjectHandler objectHandler;
 
@@ -36,7 +36,7 @@ public class FireEvent implements InputEvent{
                 10,
                 10,
                 Identifier.PlayerProjectile,
-                new GameEntity(2, 4, Color.blue),
+                new GameObjectGraphics(2, 4, Color.white),
                 new OutOfBoundsDecorator(
                     new EnemyMovement(),
                     this.objectHandler

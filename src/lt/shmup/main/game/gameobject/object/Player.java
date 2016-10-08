@@ -12,14 +12,14 @@ import java.awt.*;
 public class Player extends GameObject {
 
     public Player(
-            int x,
-            int y,
-            int health,
-            int maxHealth,
-            Identifier identifier,
-            GraphicsHandler graphicsHandler,
-            MovementHandler movementHandler,
-            CollisionHandler collisionHandler
+        int x,
+        int y,
+        int health,
+        int maxHealth,
+        Identifier identifier,
+        GraphicsHandler graphicsHandler,
+        MovementHandler movementHandler,
+        CollisionHandler collisionHandler
     ) {
         super(
             x,

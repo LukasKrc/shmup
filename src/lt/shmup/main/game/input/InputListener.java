@@ -35,22 +35,6 @@ public class InputListener {
         this.keyReleasedEvents.add(inputEvent);
     }
 
-    public LinkedList<InputEvent> getKeyPressedInputEvents() {
-        return keyPressedEvents;
-    }
-
-    public LinkedList<InputEvent> getKeyReleasedInputEvents() {
-        return keyReleasedEvents;
-    }
-
-    public void removeKeyPressedEvent(InputEvent inputEvent) {
-        this.keyPressedEvents.remove(inputEvent);
-    }
-
-    public void removeKeyReleasedEvent(InputEvent inputEvent) {
-        this.keyReleasedEvents.remove(inputEvent);
-    }
-
     public void fireKeyPressedEvents(KeyEvent keyEvent) {
         for (InputEvent inputEvent : this.keyPressedEvents) {
             inputEvent.handleKeyEvent(keyEvent, this.gameObject);

@@ -28,7 +28,7 @@ public class HealthCollision implements CollisionHandler {
                 gameObject.getBounds().intersects(newGameObject.getBounds())
             ) {
                 this.handleGameObjectCollision(gameObject, newGameObject);
-                this.alreadyCollidedObjects.add(newGameObject);
+                this.alreadyCollidedObjects.add(gameObject);
             }
 
             if (gameObject.getHealth() <= 0) {

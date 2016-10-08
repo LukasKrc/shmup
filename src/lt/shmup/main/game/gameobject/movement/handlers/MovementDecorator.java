@@ -6,7 +6,7 @@ public abstract class MovementDecorator implements MovementHandler {
 
     private MovementHandler movementHandler;
 
-    protected MovementDecorator() {
+    private MovementDecorator() {
 
     }
 

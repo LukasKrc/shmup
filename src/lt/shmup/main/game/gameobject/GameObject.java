@@ -11,9 +11,9 @@ import java.util.LinkedList;
 public abstract class GameObject {
 
     /**
-     * Game object coordinates.
+     * Game object coordinates health and maximum health.
      */
-    private int x, y, maxHealth;
+    private int x, y, maxHealth, health;
 
     /**
      * Game object type identifier.
@@ -24,11 +24,6 @@ public abstract class GameObject {
      * Game object movement velocities.
      */
     private int velocityX, velocityY;
-
-    /**
-     * Game object health value.
-     */
-    private int health;
 
     /**
      * Input event listeners.

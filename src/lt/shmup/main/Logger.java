@@ -9,6 +9,7 @@ import java.util.Date;
 
 public class Logger {
 
+    private static Logger instance;
     private String logFolder;
     private BufferedWriter logFileWriter;
     private DateFormat logTimeFormat;
@@ -80,8 +81,6 @@ public class Logger {
         }
         return path + this.pathSeparator + "logs" + this.pathSeparator;
     }
-
-    private static Logger instance;
 
     public static Logger getInstance() {
         if (Logger.instance == null) {

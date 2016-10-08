@@ -1,8 +1,5 @@
 package lt.shmup.main;
 
-/**
- * Created by lukas on 16.9.24.
- */
 public class Utility {
 
     public static final int WINDOW_HEIGHT = 480, WINDOW_WIDTH = 600;
