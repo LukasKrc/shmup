@@ -124,7 +124,7 @@ public abstract class GameObject {
         }
     }
 
-    public void render(Graphics graphics) {
+    public void render(Graphics2D graphics) {
         if (this.graphicsHandler != null) {
             this.graphicsHandler.render(graphics, this);
         }

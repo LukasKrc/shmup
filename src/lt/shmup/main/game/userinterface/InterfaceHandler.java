@@ -22,7 +22,7 @@ public class InterfaceHandler {
         }
     }
 
-    public void render(Graphics graphics) {
+    public void render(Graphics2D graphics) {
         for (InterfaceObject interfaceObject : this.interfaceObjects) {
             interfaceObject.render(graphics);
         }

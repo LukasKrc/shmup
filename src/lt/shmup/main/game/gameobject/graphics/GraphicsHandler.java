@@ -6,6 +6,6 @@ import java.awt.*;
 
 public interface GraphicsHandler {
 
-    void render(Graphics graphics, GameObject gameObject);
+    void render(Graphics2D graphics, GameObject gameObject);
 
 }

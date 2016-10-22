@@ -6,6 +6,7 @@ import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.behaviour.handlers.BasicEnemyBehaviour;
 import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
 import lt.shmup.main.game.gameobject.graphics.handlers.GameObjectGraphics;
+import lt.shmup.main.game.gameobject.graphics.handlers.ImageGraphics;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.ClampDecorator;
 import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.PlayerMovement;
@@ -15,6 +16,8 @@ import lt.shmup.main.game.gameobject.object.Player;
 import lt.shmup.main.game.input.KeyInputHandler;
 import lt.shmup.main.game.input.KeyStateHandler;
 import lt.shmup.main.game.input.commands.FireCommand;
+import lt.shmup.main.game.input.commands.FirePressed;
+import lt.shmup.main.game.input.commands.firing.FireReleased;
 import lt.shmup.main.game.input.commands.movement.pressed.MoveDown;
 import lt.shmup.main.game.input.commands.movement.pressed.MoveLeft;
 import lt.shmup.main.game.input.commands.movement.pressed.MoveRight;
@@ -25,9 +28,11 @@ import lt.shmup.main.game.input.state.HashMapKeyStateHandler;
 import lt.shmup.main.game.userinterface.InterfaceHandler;
 import lt.shmup.main.game.userinterface.object.HealthBar;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 
 public class Game extends Canvas implements Runnable {
 
@@ -90,7 +95,7 @@ public class Game extends Canvas implements Runnable {
             100,
             100,
             Identifier.Player,
-            new GameObjectGraphics(32, 32, Color.white),
+            new ImageGraphics("images/player.png", 32, 32),
             new ClampDecorator(new PlayerMovement()),
             new HealthCollision(this.objectHandler)
         );
@@ -105,7 +110,7 @@ public class Game extends Canvas implements Runnable {
             100,
             100,
             Identifier.Enemy,
-            new GameObjectGraphics(16, 16, Color.red),
+            new ImageGraphics("images/enemyShip.png", 32, 32),
             new ReflectDecorator(new EnemyMovement()),
             new HealthCollision(this.objectHandler),
             new BasicEnemyBehaviour(this.objectHandler)
@@ -116,15 +121,17 @@ public class Game extends Canvas implements Runnable {
         MoveDown moveDownCommand = new MoveDown(player, playerVelocity);
         MoveRight moveRightCommand = new MoveRight(player, playerVelocity);
         MoveLeft moveLeftCommand = new MoveLeft(player, playerVelocity);
+        FirePressed firePressedCommand = new FirePressed(this.objectHandler, player);
         this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_W, moveUpCommand);
         this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_S, moveDownCommand);
         this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_D, moveRightCommand);
         this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_A, moveLeftCommand);
-        this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_SPACE, new FireCommand(this.objectHandler, player));
+        this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_SPACE, firePressedCommand);
         this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_W, new Vertical(player, this.keyStateHandler, KeyEvent.VK_S, moveDownCommand));
         this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_S, new Vertical(player, this.keyStateHandler, KeyEvent.VK_W, moveUpCommand));
         this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_D, new Horizontal(player, this.keyStateHandler, KeyEvent.VK_A, moveLeftCommand));
         this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_A, new Horizontal(player, this.keyStateHandler, KeyEvent.VK_D, moveRightCommand));
+        this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_SPACE, new FireReleased(firePressedCommand));
 
         this.objectHandler.addObject(player);
         this.objectHandler.addObject(enemy);
@@ -190,7 +197,7 @@ public class Game extends Canvas implements Runnable {
             this.createBufferStrategy(3);
             return;
         }
-        Graphics graphics = bufferStrategy.getDrawGraphics();
+        Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
         do {
             try {
                 graphics.setColor(Color.black);

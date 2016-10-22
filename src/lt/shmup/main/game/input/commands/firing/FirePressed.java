@@ -6,6 +6,7 @@ import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
 import lt.shmup.main.game.gameobject.graphics.handlers.GameObjectGraphics;
+import lt.shmup.main.game.gameobject.graphics.handlers.ImageGraphics;
 import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.OutOfBoundsDecorator;
 import lt.shmup.main.game.gameobject.object.Player;
@@ -15,7 +16,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-public class FireCommand implements Command {
+public class FirePressed implements Command {
 
     private ObjectHandler objectHandler;
 
@@ -23,7 +24,7 @@ public class FireCommand implements Command {
 
     private boolean keyIsPressed;
 
-    public FireCommand(ObjectHandler objectHandler, GameObject gameObject) {
+    public FirePressed(ObjectHandler objectHandler, GameObject gameObject) {
         this.objectHandler = objectHandler;
         this.gameObject = gameObject;
     }
@@ -48,10 +49,10 @@ public class FireCommand implements Command {
                 10,
                 10,
                 Identifier.PlayerProjectile,
-                new GameObjectGraphics(2, 4, Color.white),
+                new ImageGraphics("images/laserRed.png", 4, 8),
                 new OutOfBoundsDecorator(
-                    new EnemyMovement(),
-                    this.objectHandler
+                        new EnemyMovement(),
+                        this.objectHandler
                 ),
                 new HealthCollision(this.objectHandler)
         );

@@ -34,6 +34,6 @@ public class Projectile extends GameObject {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(this.getX(), this.getY(), 2, 4);
+        return new Rectangle(this.getX(), this.getY(), 4, 8);
     }
 }

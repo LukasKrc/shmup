@@ -17,7 +17,7 @@ public class GameObjectGraphics implements GraphicsHandler {
     }
 
     @Override
-    public void render(Graphics graphics, GameObject gameObject) {
+    public void render(Graphics2D graphics, GameObject gameObject) {
         graphics.setColor(this.color);
         graphics.fillRect(
                 gameObject.getX(),

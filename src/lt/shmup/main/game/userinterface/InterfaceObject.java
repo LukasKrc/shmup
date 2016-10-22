@@ -4,5 +4,5 @@ import java.awt.*;
 
 public interface InterfaceObject {
     void update();
-    void render(Graphics graphics);
+    void render(Graphics2D graphics);
 }

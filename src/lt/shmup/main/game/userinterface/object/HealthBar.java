@@ -36,7 +36,7 @@ public class HealthBar implements InterfaceObject {
     }
 
     @Override
-    public void render(Graphics graphics) {
+    public void render(Graphics2D graphics) {
         GameObject gameObject = this.gameObject;
         graphics.setColor(Color.gray);
         graphics.fillRect(

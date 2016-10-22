@@ -6,6 +6,7 @@ import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.behaviour.BehaviourHandler;
 import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
 import lt.shmup.main.game.gameobject.graphics.handlers.GameObjectGraphics;
+import lt.shmup.main.game.gameobject.graphics.handlers.ImageGraphics;
 import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
 import lt.shmup.main.game.gameobject.object.Projectile;
 
@@ -55,7 +56,7 @@ public class BasicEnemyBehaviour implements BehaviourHandler {
             10,
             10,
             Identifier.EnemyProjectile,
-            new GameObjectGraphics(2, 4, Color.red),
+            new ImageGraphics("images/laserGreen.png", 4, 8),
             new EnemyMovement(),
             new HealthCollision(this.objectHandler)
         );

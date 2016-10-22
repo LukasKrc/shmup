@@ -18,7 +18,7 @@ public class ObjectHandler {
         this.objectAddBuffer.clear();
     }
 
-    public void render(Graphics graphics) {
+    public void render(Graphics2D graphics) {
         for (GameObject gameObject : gameObjects) {
             gameObject.render(graphics);
         }
