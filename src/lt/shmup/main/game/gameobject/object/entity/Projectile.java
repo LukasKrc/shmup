@@ -1,9 +1,10 @@
-package lt.shmup.main.game.gameobject.object;
+package lt.shmup.main.game.gameobject.object.entity;
 
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.collision.CollisionHandler;
 import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
+import lt.shmup.main.game.gameobject.health.HealthHandler;
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
 
 import java.awt.*;
@@ -18,7 +19,8 @@ public class Projectile extends GameObject {
         Identifier identifier,
         GraphicsHandler graphicsHandler,
         MovementHandler movementHandler,
-        CollisionHandler collisionHandler
+        CollisionHandler collisionHandler,
+        HealthHandler healthHandler
     ) {
         super(
             x,
@@ -28,7 +30,8 @@ public class Projectile extends GameObject {
             identifier,
             graphicsHandler,
             movementHandler,
-            collisionHandler
+            collisionHandler,
+            healthHandler
         );
     }
 

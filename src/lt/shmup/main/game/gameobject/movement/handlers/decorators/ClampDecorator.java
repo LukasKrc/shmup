@@ -15,10 +15,10 @@ public class ClampDecorator extends MovementDecorator {
     public void update(GameObject gameObject) {
         this.getMovementHandler().update(gameObject);
         gameObject.setX(
-                Utility.clamp(gameObject.getX(), 0, Utility.WINDOW_WIDTH)
+                Utility.clampInt(gameObject.getX(), 0, Utility.WINDOW_WIDTH)
         );
         gameObject.setY(
-                Utility.clamp(gameObject.getY(), 0, Utility.WINDOW_HEIGHT)
+                Utility.clampInt(gameObject.getY(), 0, Utility.WINDOW_HEIGHT)
         );
     }
 

@@ -2,15 +2,14 @@ package lt.shmup.main.game.gameobject.factory.enemy;
 
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
-import lt.shmup.main.game.gameobject.behaviour.handlers.BasicEnemyBehaviour;
-import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
 import lt.shmup.main.game.gameobject.factory.BehaviourFactory;
 import lt.shmup.main.game.gameobject.factory.CollisionFactory;
 import lt.shmup.main.game.gameobject.factory.GameObjectFactory;
 import lt.shmup.main.game.gameobject.graphics.handlers.ImageGraphics;
+import lt.shmup.main.game.gameobject.health.handler.DefaultHealth;
 import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.ReflectDecorator;
-import lt.shmup.main.game.gameobject.object.BasicEnemy;
+import lt.shmup.main.game.gameobject.object.entity.BasicEnemy;
 
 public class EnemyFactory implements GameObjectFactory{
 
@@ -34,7 +33,8 @@ public class EnemyFactory implements GameObjectFactory{
             new ImageGraphics("images/enemyShip.png", 32, 32),
             new ReflectDecorator(new EnemyMovement()),
             collisionFactory.getCollisionHandler("health"),
-            behaviourFactory.getBehaviourHandler("basicEnemy")
+            behaviourFactory.getBehaviourHandler("basicEnemy"),
+            new DefaultHealth(0, 50, 50)
         );
     }
 

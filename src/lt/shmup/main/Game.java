@@ -1,24 +1,17 @@
 package lt.shmup.main;
 
+import lt.shmup.main.game.GameState;
 import lt.shmup.main.game.commands.dispatcher.HashMapDispatcher;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.ObjectHandler;
-import lt.shmup.main.game.gameobject.Identifier;
-import lt.shmup.main.game.gameobject.behaviour.handlers.BasicEnemyBehaviour;
-import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
 import lt.shmup.main.game.gameobject.factory.FactoryFactory;
 import lt.shmup.main.game.gameobject.factory.GameObjectFactory;
-import lt.shmup.main.game.gameobject.graphics.handlers.GameObjectGraphics;
-import lt.shmup.main.game.gameobject.graphics.handlers.ImageGraphics;
-import lt.shmup.main.game.gameobject.movement.handlers.decorators.ClampDecorator;
-import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
-import lt.shmup.main.game.gameobject.movement.handlers.PlayerMovement;
-import lt.shmup.main.game.gameobject.movement.handlers.decorators.ReflectDecorator;
-import lt.shmup.main.game.gameobject.object.BasicEnemy;
-import lt.shmup.main.game.gameobject.object.Player;
+import lt.shmup.main.game.gameobject.graphics.handlers.BarGraphics;
+import lt.shmup.main.game.gameobject.graphics.handlers.bargraphics.HealthBarGraphics;
+import lt.shmup.main.game.gameobject.health.HealthHandler;
+import lt.shmup.main.game.gameobject.tracker.valuetracker.HealthValueTracker;
 import lt.shmup.main.game.input.KeyInputHandler;
 import lt.shmup.main.game.input.KeyStateHandler;
-import lt.shmup.main.game.input.commands.FireCommand;
 import lt.shmup.main.game.input.commands.FirePressed;
 import lt.shmup.main.game.input.commands.firing.FireReleased;
 import lt.shmup.main.game.input.commands.movement.pressed.MoveDown;
@@ -28,14 +21,11 @@ import lt.shmup.main.game.input.commands.movement.pressed.MoveUp;
 import lt.shmup.main.game.input.commands.movement.released.Horizontal;
 import lt.shmup.main.game.input.commands.movement.released.Vertical;
 import lt.shmup.main.game.input.state.HashMapKeyStateHandler;
-import lt.shmup.main.game.userinterface.InterfaceHandler;
-import lt.shmup.main.game.userinterface.object.HealthBar;
+import lt.shmup.main.game.gameobject.object.userInterface.HealthBar;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
-import java.io.IOException;
 
 public class Game extends Canvas implements Runnable {
 
@@ -60,15 +50,14 @@ public class Game extends Canvas implements Runnable {
     private KeyInputHandler keyInputHandler;
 
     /**
-     * User interface object handler.
-     */
-    private InterfaceHandler interfaceHandler;
-
-    /**
      * Handles current keyboard button states (pressed, released)
      */
     private KeyStateHandler keyStateHandler;
 
+    /**
+     * Current game state.
+     */
+    private GameState state;
 
     /**
      * Log handler.
@@ -76,17 +65,17 @@ public class Game extends Canvas implements Runnable {
     private Logger logger;
 
     public Game() {
-        this.objectHandler = new ObjectHandler();
         new Window(Utility.WINDOW_WIDTH, Utility.WINDOW_HEIGHT, "Shmup", this);
+        this.startGame();
+    }
 
-        this.interfaceHandler = new InterfaceHandler();
-
-
+    private void startGame() {
+        this.objectHandler = new ObjectHandler();
         this.keyStateHandler = new HashMapKeyStateHandler();
         this.keyInputHandler = new KeyInputHandler(
-            this.keyStateHandler,
-            new HashMapDispatcher(),
-            new HashMapDispatcher()
+                this.keyStateHandler,
+                new HashMapDispatcher(),
+                new HashMapDispatcher()
         );
         this.addKeyListener(this.keyInputHandler);
 
@@ -103,8 +92,21 @@ public class Game extends Canvas implements Runnable {
         GameObject player = playerFactory.getCharacter(null);
         GameObject enemy = enemyFactory.getCharacter(null);
 
-        this.interfaceHandler.addInterfaceObject(
-            new HealthBar(player, 15, 15, 200, 30, Color.green, Color.white)
+        HealthHandler playerHealthHandler = player.getHealthHandler();
+        this.objectHandler.addObject(
+            new HealthBar(
+                15,
+                15,
+                200,
+                30,
+                new HealthBarGraphics(
+                    200,
+                    30,
+                    Color.GREEN,
+                    Color.WHITE,
+                    new HealthValueTracker(playerHealthHandler, playerHealthHandler.getMinimumHealth(), playerHealthHandler.getMaximumHealth())
+                )
+            )
         );
 
         int playerVelocity = 5;
@@ -176,7 +178,6 @@ public class Game extends Canvas implements Runnable {
     private void update() {
         try {
             this.objectHandler.update();
-            this.interfaceHandler.update();
         } catch (Exception e) {
             this.logger.logException(e);
         }
@@ -199,7 +200,6 @@ public class Game extends Canvas implements Runnable {
                     Utility.WINDOW_HEIGHT
                 );
                 this.objectHandler.render(graphics);
-                this.interfaceHandler.render(graphics);
             } catch (Exception e) {
                 this.logger.logException(e);
             } finally {
@@ -207,6 +207,14 @@ public class Game extends Canvas implements Runnable {
             }
             bufferStrategy.show();
         } while (bufferStrategy.contentsLost());
+    }
+
+    public GameState getState() {
+        return state;
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
     }
 
     public static void main(String args[]) {

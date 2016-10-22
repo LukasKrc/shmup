@@ -1,10 +1,11 @@
-package lt.shmup.main.game.gameobject.object;
+package lt.shmup.main.game.gameobject.object.entity;
 
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.behaviour.BehaviourHandler;
 import lt.shmup.main.game.gameobject.collision.CollisionHandler;
 import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
+import lt.shmup.main.game.gameobject.health.HealthHandler;
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
 
 import java.awt.*;
@@ -22,7 +23,8 @@ public class BasicEnemy extends GameObject{
         GraphicsHandler graphicsHandler,
         MovementHandler movementHandler,
         CollisionHandler collisionHandler,
-        BehaviourHandler behaviourHandler
+        BehaviourHandler behaviourHandler,
+        HealthHandler healthHandler
     ) {
         super(
             x,
@@ -32,7 +34,8 @@ public class BasicEnemy extends GameObject{
             identifier,
             graphicsHandler,
             movementHandler,
-            collisionHandler
+            collisionHandler,
+            healthHandler
         );
 
         this.behaviourHandler = behaviourHandler;

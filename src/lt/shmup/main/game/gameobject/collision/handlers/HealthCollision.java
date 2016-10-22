@@ -31,7 +31,7 @@ public class HealthCollision implements CollisionHandler {
                 this.alreadyCollidedObjects.add(gameObject);
             }
 
-            if (gameObject.getHealth() <= 0) {
+            if (gameObject.getHealthHandler().getHealth() <= 0) {
                  objectHandler.removeObject(gameObject);
             }
         }
@@ -45,9 +45,9 @@ public class HealthCollision implements CollisionHandler {
             || gameObject.getIdentifier() == Identifier.EnemyProjectile
         ) {
             objectHandler.removeObject(gameObject);
-            otherGameObject.setHealth(otherGameObject.getHealth() - 50);
+            otherGameObject.getHealthHandler().setHealth(otherGameObject.getHealthHandler().getHealth() - 50);
         } else {
-            gameObject.setHealth(gameObject.getHealth() - 50);
+            gameObject.getHealthHandler().setHealth(gameObject.getHealthHandler().getHealth() - 50);
         }
     }
 
@@ -55,6 +55,12 @@ public class HealthCollision implements CollisionHandler {
             GameObject firstGameObject,
             GameObject secondGameObject
     ) {
+        if (firstGameObject.getIdentifier() == Identifier.InterfaceObject
+            || secondGameObject.getIdentifier() == Identifier.InterfaceObject
+        ) {
+            return false;
+        }
+
         if (this.alreadyCollidedObjects.indexOf(secondGameObject) != -1) {
             return false;
         }

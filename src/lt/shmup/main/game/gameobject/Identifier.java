@@ -4,5 +4,6 @@ public enum Identifier {
     Player(),
     Enemy(),
     PlayerProjectile(),
-    EnemyProjectile()
+    EnemyProjectile(),
+    InterfaceObject(),
 }

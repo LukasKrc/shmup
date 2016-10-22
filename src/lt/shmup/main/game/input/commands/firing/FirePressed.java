@@ -5,16 +5,11 @@ import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
-import lt.shmup.main.game.gameobject.graphics.handlers.GameObjectGraphics;
 import lt.shmup.main.game.gameobject.graphics.handlers.ImageGraphics;
+import lt.shmup.main.game.gameobject.health.handler.DefaultHealth;
 import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.OutOfBoundsDecorator;
-import lt.shmup.main.game.gameobject.object.Player;
-import lt.shmup.main.game.gameobject.object.Projectile;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.HashMap;
+import lt.shmup.main.game.gameobject.object.entity.Projectile;
 
 public class FirePressed implements Command {
 
@@ -44,17 +39,18 @@ public class FirePressed implements Command {
 
     private void spawnPlayerProjectile() {
         GameObject projectile = new Projectile(
-                this.gameObject.getX() + 16,
-                this.gameObject.getY() + -16,
-                10,
-                10,
-                Identifier.PlayerProjectile,
-                new ImageGraphics("images/laserRed.png", 4, 8),
-                new OutOfBoundsDecorator(
-                        new EnemyMovement(),
-                        this.objectHandler
-                ),
-                new HealthCollision(this.objectHandler)
+            this.gameObject.getX() + 16,
+            this.gameObject.getY() + -16,
+            10,
+            10,
+            Identifier.PlayerProjectile,
+            new ImageGraphics("images/laserRed.png", 4, 8),
+            new OutOfBoundsDecorator(
+                    new EnemyMovement(),
+                    this.objectHandler
+            ),
+            new HealthCollision(this.objectHandler),
+            new DefaultHealth(0, 4, 4)
         );
         projectile.setVelocityY(-10);
         objectHandler.addObject(projectile);

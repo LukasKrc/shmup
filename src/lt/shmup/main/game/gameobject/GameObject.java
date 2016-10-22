@@ -2,6 +2,7 @@ package lt.shmup.main.game.gameobject;
 
 import lt.shmup.main.game.gameobject.collision.CollisionHandler;
 import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
+import lt.shmup.main.game.gameobject.health.HealthHandler;
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
 
 import java.awt.*;
@@ -12,7 +13,7 @@ public abstract class GameObject {
     /**
      * Game object coordinates health and maximum health.
      */
-    private int x, y, maxHealth, health;
+    private int x, y;
 
     /**
      * Game object type identifier.
@@ -39,6 +40,11 @@ public abstract class GameObject {
      */
     private CollisionHandler collisionHandler;
 
+    /**
+     * Game object health handler.
+     */
+    private HealthHandler healthHandler;
+
     public GameObject(
             int x,
             int y,
@@ -47,16 +53,16 @@ public abstract class GameObject {
             Identifier identifier,
             GraphicsHandler graphicsHandler,
             MovementHandler movementHandler,
-            CollisionHandler collisionHandler
+            CollisionHandler collisionHandler,
+            HealthHandler healthHandler
     ) {
         this.x = x;
         this.y = y;
-        this.maxHealth = maxHealth;
         this.identifier = identifier;
         this.graphicsHandler = graphicsHandler;
         this.movementHandler = movementHandler;
-        this.health = health;
         this.collisionHandler = collisionHandler;
+        this.healthHandler = healthHandler;
     }
 
     public int getX() {
@@ -99,20 +105,12 @@ public abstract class GameObject {
         this.velocityY = velocityY;
     }
 
-    public int getHealth() {
-        return health;
+    public HealthHandler getHealthHandler() {
+        return healthHandler;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
-    }
-
-    public void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
+    public void setHealthHandler(HealthHandler healthHandler) {
+        this.healthHandler = healthHandler;
     }
 
     public void update() {
@@ -121,6 +119,9 @@ public abstract class GameObject {
         }
         if (this.collisionHandler != null) {
             this.collisionHandler.update(this);
+        }
+        if (this.healthHandler != null) {
+            this.healthHandler.update(this);
         }
     }
 

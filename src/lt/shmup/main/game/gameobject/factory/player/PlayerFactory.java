@@ -3,13 +3,13 @@ package lt.shmup.main.game.gameobject.factory.player;
 import lt.shmup.main.Utility;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
-import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
 import lt.shmup.main.game.gameobject.factory.CollisionFactory;
 import lt.shmup.main.game.gameobject.factory.GameObjectFactory;
 import lt.shmup.main.game.gameobject.graphics.handlers.ImageGraphics;
+import lt.shmup.main.game.gameobject.health.handler.DefaultHealth;
 import lt.shmup.main.game.gameobject.movement.handlers.PlayerMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.ClampDecorator;
-import lt.shmup.main.game.gameobject.object.Player;
+import lt.shmup.main.game.gameobject.object.entity.Player;
 
 public class PlayerFactory implements GameObjectFactory{
 
@@ -29,7 +29,8 @@ public class PlayerFactory implements GameObjectFactory{
                 Identifier.Player,
                 new ImageGraphics("images/player.png", 32, 32),
                 new ClampDecorator(new PlayerMovement()),
-                collisionFactory.getCollisionHandler("health")
+                collisionFactory.getCollisionHandler("health"),
+                new DefaultHealth(0, 100, 100)
         );
     }
 
