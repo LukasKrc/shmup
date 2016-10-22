@@ -13,12 +13,20 @@ import lt.shmup.main.game.gameobject.movement.handlers.decorators.ReflectDecorat
 import lt.shmup.main.game.gameobject.object.BasicEnemy;
 import lt.shmup.main.game.gameobject.object.Player;
 import lt.shmup.main.game.input.KeyInputHandler;
-import lt.shmup.main.game.input.events.FireEvent;
-import lt.shmup.main.game.input.events.MovementEvent;
+import lt.shmup.main.game.input.KeyStateHandler;
+import lt.shmup.main.game.input.commands.FireCommand;
+import lt.shmup.main.game.input.commands.movement.pressed.MoveDown;
+import lt.shmup.main.game.input.commands.movement.pressed.MoveLeft;
+import lt.shmup.main.game.input.commands.movement.pressed.MoveRight;
+import lt.shmup.main.game.input.commands.movement.pressed.MoveUp;
+import lt.shmup.main.game.input.commands.movement.released.Horizontal;
+import lt.shmup.main.game.input.commands.movement.released.Vertical;
+import lt.shmup.main.game.input.state.HashMapKeyStateHandler;
 import lt.shmup.main.game.userinterface.InterfaceHandler;
 import lt.shmup.main.game.userinterface.object.HealthBar;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable {
@@ -41,12 +49,17 @@ public class Game extends Canvas implements Runnable {
     /**
      * Key input handling object.
      */
-    private KeyInputHandler keyInputHandlerHandler;
+    private KeyInputHandler keyInputHandler;
 
     /**
      * User interface object handler.
      */
     private InterfaceHandler interfaceHandler;
+
+    /**
+     * Handles current keyboard button states (pressed, released)
+     */
+    private KeyStateHandler keyStateHandler;
 
     /**
      * Log handler.
@@ -59,10 +72,13 @@ public class Game extends Canvas implements Runnable {
 
         this.interfaceHandler = new InterfaceHandler();
 
+
+        this.keyStateHandler = new HashMapKeyStateHandler();
+        this.keyInputHandler = new KeyInputHandler(this.keyStateHandler);
+        this.addKeyListener(this.keyInputHandler);
+
         this.createGameObjects();
 
-        this.keyInputHandlerHandler = new KeyInputHandler(this.objectHandler);
-        this.addKeyListener(this.keyInputHandlerHandler);
         this.logger = Logger.getInstance();
         this.logger.log("Game started");
     }
@@ -95,8 +111,20 @@ public class Game extends Canvas implements Runnable {
             new BasicEnemyBehaviour(this.objectHandler)
         );
 
-        player.addInputEvent(new MovementEvent(15, 5));
-        player.addInputEvent(new FireEvent(objectHandler));
+        int playerVelocity = 5;
+        MoveUp moveUpCommand = new MoveUp(player, playerVelocity);
+        MoveDown moveDownCommand = new MoveDown(player, playerVelocity);
+        MoveRight moveRightCommand = new MoveRight(player, playerVelocity);
+        MoveLeft moveLeftCommand = new MoveLeft(player, playerVelocity);
+        this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_W, moveUpCommand);
+        this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_S, moveDownCommand);
+        this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_D, moveRightCommand);
+        this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_A, moveLeftCommand);
+        this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_SPACE, new FireCommand(this.objectHandler, player));
+        this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_W, new Vertical(player, this.keyStateHandler, KeyEvent.VK_S, moveDownCommand));
+        this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_S, new Vertical(player, this.keyStateHandler, KeyEvent.VK_W, moveUpCommand));
+        this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_D, new Horizontal(player, this.keyStateHandler, KeyEvent.VK_A, moveLeftCommand));
+        this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_A, new Horizontal(player, this.keyStateHandler, KeyEvent.VK_D, moveRightCommand));
 
         this.objectHandler.addObject(player);
         this.objectHandler.addObject(enemy);

@@ -3,7 +3,6 @@ package lt.shmup.main.game.gameobject;
 import lt.shmup.main.game.gameobject.collision.CollisionHandler;
 import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
-import lt.shmup.main.game.input.InputEvent;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -24,11 +23,6 @@ public abstract class GameObject {
      * Game object movement velocities.
      */
     private int velocityX, velocityY;
-
-    /**
-     * Input event listeners.
-     */
-    private LinkedList<InputEvent> inputEvents = new LinkedList<>();
 
     /**
      * Game object graphics handler.
@@ -103,19 +97,6 @@ public abstract class GameObject {
 
     public void setVelocityY(int velocityY) {
         this.velocityY = velocityY;
-    }
-
-    public LinkedList<InputEvent> getInputEvents() {
-        return this.inputEvents;
-    }
-
-    public void addInputEvent(InputEvent inputEvent) {
-        inputEvent.setGameObject(this);
-        this.inputEvents.add(inputEvent);
-    }
-
-    public void removeInputEvent(InputEvent inputEvent) {
-        this.inputEvents.remove(inputEvent);
     }
 
     public int getHealth() {

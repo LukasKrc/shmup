@@ -1,5 +1,6 @@
-package lt.shmup.main.game.input.events;
+package lt.shmup.main.game.input.commands;
 
+import lt.shmup.main.game.Command;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.ObjectHandler;
@@ -7,36 +8,28 @@ import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
 import lt.shmup.main.game.gameobject.graphics.handlers.GameObjectGraphics;
 import lt.shmup.main.game.gameobject.movement.handlers.EnemyMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.OutOfBoundsDecorator;
+import lt.shmup.main.game.gameobject.object.Player;
 import lt.shmup.main.game.gameobject.object.Projectile;
-import lt.shmup.main.game.input.InputEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-public class FireEvent extends InputEvent {
+public class FireCommand implements Command {
 
     private ObjectHandler objectHandler;
 
-    public FireEvent(ObjectHandler objectHandler) {
+    private GameObject gameObject;
+
+    public FireCommand(ObjectHandler objectHandler, GameObject gameObject) {
         this.objectHandler = objectHandler;
+        this.gameObject = gameObject;
     }
 
-    public void handleKeyPressedEvent(KeyEvent keyEvent, HashMap<Integer, Boolean> keyStates) {
-        int keyCode = keyEvent.getKeyCode();
-        if (keyCode == KeyEvent.VK_SPACE) {
-            this.spawnPlayerProjectile(this.getGameObject());
-        }
-    }
-
-    public void handleKeyReleasedEvent(KeyEvent keyEvent, HashMap<Integer, Boolean> keyStates) {
-        // Do nothing
-    }
-
-    private void spawnPlayerProjectile(GameObject gameObject) {
+    private void spawnPlayerProjectile() {
         GameObject projectile = new Projectile(
-                gameObject.getX() + 16,
-                gameObject.getY() + -16,
+                this.gameObject.getX() + 16,
+                this.gameObject.getY() + -16,
                 10,
                 10,
                 Identifier.PlayerProjectile,
@@ -49,5 +42,10 @@ public class FireEvent extends InputEvent {
         );
         projectile.setVelocityY(-10);
         objectHandler.addObject(projectile);
+    }
+
+    @Override
+    public void execute() {
+        this.spawnPlayerProjectile();
     }
 }

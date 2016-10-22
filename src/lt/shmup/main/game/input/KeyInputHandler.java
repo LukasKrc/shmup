@@ -1,44 +1,57 @@
 package lt.shmup.main.game.input;
 
-import jdk.internal.util.xml.impl.Input;
+import lt.shmup.main.game.Command;
 import lt.shmup.main.game.gameobject.GameObject;
-import lt.shmup.main.game.gameobject.ObjectHandler;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class KeyInputHandler extends KeyAdapter {
 
     /**
-     * Game object handler.
+     * Commands that get executed when the keyboard button indicated by the map key gets pressed.
      */
-    private ObjectHandler objectHandler;
+    private HashMap<Integer, LinkedList<Command>> keyPressedCommands = new HashMap<>();
 
     /**
-     * Current states of keyboard buttons (pressed, released).
+     * The same as inputPressedCommands except they get executed when the key is released.
      */
-    private HashMap<Integer, Boolean> keyStates = new HashMap<>();
+    private HashMap<Integer, LinkedList<Command>> keyReleasedCommands = new HashMap<>();
 
-    public KeyInputHandler(ObjectHandler objectHandler) {
-        this.objectHandler = objectHandler;
+    /**
+     * Object that stores current key states.
+     */
+    private KeyStateHandler keyStateHandler;
+
+    public KeyInputHandler(KeyStateHandler keyStateHandler) {
+        this.keyStateHandler = keyStateHandler;
     }
 
-    public void keyPressed(KeyEvent event) {
-        this.keyStates.put(event.getKeyCode(), true);
-        for (GameObject gameObject : this.objectHandler.getGameObjects()) {
-            for (InputEvent inputEvent : gameObject.getInputEvents()) {
-                inputEvent.handleKeyPressedEvent(event, this.keyStates);
-            }
+    public void addKeyPressedCommand(int keyCode, Command command) {
+        this.keyPressedCommands.putIfAbsent(keyCode, new LinkedList<>());
+        this.keyPressedCommands.get(keyCode).add(command);
+    }
+
+    public void addKeyReleasedCommand(int keyCode, Command command) {
+        this.keyReleasedCommands.putIfAbsent(keyCode, new LinkedList<>());
+        this.keyReleasedCommands.get(keyCode).add(command);
+    }
+
+    public void keyPressed(KeyEvent keyEvent) {
+        int keyCode = keyEvent.getKeyCode();
+        this.keyStateHandler.setKeyState(keyCode, true);
+        for (Command keyPressedCommand : this.keyPressedCommands.getOrDefault(keyCode, new LinkedList<>())) {
+            keyPressedCommand.execute();
         }
     }
 
-    public void keyReleased(KeyEvent event) {
-        this.keyStates.put(event.getKeyCode(), false);
-        for (GameObject gameObject : this.objectHandler.getGameObjects()) {
-            for (InputEvent inputEvent : gameObject.getInputEvents()) {
-                inputEvent.handleKeyReleasedEvent(event, this.keyStates);
-            }
+    public void keyReleased(KeyEvent keyEvent) {
+        int keyCode = keyEvent.getKeyCode();
+        this.keyStateHandler.setKeyState(keyCode, false);
+        for (Command keyReleasedCommand : this.keyReleasedCommands.getOrDefault(keyCode, new LinkedList<>())) {
+            keyReleasedCommand.execute();
         }
     }
 
