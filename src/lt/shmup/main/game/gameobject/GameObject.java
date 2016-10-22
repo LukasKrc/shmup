@@ -3,7 +3,7 @@ package lt.shmup.main.game.gameobject;
 import lt.shmup.main.game.gameobject.collision.CollisionHandler;
 import lt.shmup.main.game.gameobject.graphics.GraphicsHandler;
 import lt.shmup.main.game.gameobject.movement.MovementHandler;
-import lt.shmup.main.game.input.InputListener;
+import lt.shmup.main.game.input.InputEvent;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -28,7 +28,7 @@ public abstract class GameObject {
     /**
      * Input event listeners.
      */
-    private LinkedList<InputListener> inputListeners = new LinkedList<>();
+    private LinkedList<InputEvent> inputEvents = new LinkedList<>();
 
     /**
      * Game object graphics handler.
@@ -105,17 +105,17 @@ public abstract class GameObject {
         this.velocityY = velocityY;
     }
 
-    public LinkedList<InputListener> getInputListeners() {
-        return this.inputListeners;
+    public LinkedList<InputEvent> getInputEvents() {
+        return this.inputEvents;
     }
 
-    public void addInputListener(InputListener inputListener) {
-        inputListener.setGameObject(this);
-        this.inputListeners.add(inputListener);
+    public void addInputEvent(InputEvent inputEvent) {
+        inputEvent.setGameObject(this);
+        this.inputEvents.add(inputEvent);
     }
 
-    public void removeInputListener(InputListener inputListener) {
-        this.inputListeners.remove(inputListener);
+    public void removeInputEvent(InputEvent inputEvent) {
+        this.inputEvents.remove(inputEvent);
     }
 
     public int getHealth() {
@@ -147,7 +147,7 @@ public abstract class GameObject {
         if (this.graphicsHandler != null) {
             this.graphicsHandler.render(graphics, this);
         }
-    };
+    }
 
     public abstract Rectangle getBounds();
 }

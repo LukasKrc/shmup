@@ -12,11 +12,9 @@ import lt.shmup.main.game.gameobject.movement.handlers.PlayerMovement;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.ReflectDecorator;
 import lt.shmup.main.game.gameobject.object.BasicEnemy;
 import lt.shmup.main.game.gameobject.object.Player;
-import lt.shmup.main.game.input.InputListener;
 import lt.shmup.main.game.input.KeyInputHandler;
 import lt.shmup.main.game.input.events.FireEvent;
-import lt.shmup.main.game.input.events.pressed.MovementPressed;
-import lt.shmup.main.game.input.events.released.MovementReleased;
+import lt.shmup.main.game.input.events.MovementEvent;
 import lt.shmup.main.game.userinterface.InterfaceHandler;
 import lt.shmup.main.game.userinterface.object.HealthBar;
 
@@ -97,11 +95,8 @@ public class Game extends Canvas implements Runnable {
             new BasicEnemyBehaviour(this.objectHandler)
         );
 
-        InputListener inputListener = new InputListener();
-        inputListener.addKeyPressedEvent(new MovementPressed(15, 5));
-        inputListener.addKeyReleasedEvent(new MovementReleased());
-        inputListener.addKeyPressedEvent(new FireEvent(objectHandler));
-        player.addInputListener(inputListener);
+        player.addInputEvent(new MovementEvent(15, 5));
+        player.addInputEvent(new FireEvent(objectHandler));
 
         this.objectHandler.addObject(player);
         this.objectHandler.addObject(enemy);

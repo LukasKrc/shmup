@@ -1,37 +1,71 @@
 package lt.shmup.main.game.input.events;
 
-import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.input.InputEvent;
 
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 
-public abstract class MovementEvent implements InputEvent {
+public class MovementEvent extends InputEvent {
 
-    public void handleKeyEvent(KeyEvent keyEvent, GameObject gameObject) {
-        int keyCode = keyEvent.getKeyCode();
-        this.updateGameObjectVelocities(keyCode, gameObject);
+    private int velocityX;
+    private int velocityY;
+
+    public MovementEvent(int velocityX, int velocityY) {
+        this.velocityX = velocityX;
+        this.velocityY = velocityY;
     }
 
-    private void updateGameObjectVelocities(
-            int keyCode,
-            GameObject gameObject
-    ) {
+    @Override
+    public void handleKeyPressedEvent(KeyEvent keyEvent, HashMap<Integer, Boolean> keyStates) {
+        int keyCode = keyEvent.getKeyCode();
         switch (keyCode) {
             case KeyEvent.VK_W :
-                gameObject.setVelocityY(-this.getVelocityY());
+                this.getGameObject().setVelocityY(-this.velocityY);
                 break;
             case KeyEvent.VK_S :
-                gameObject.setVelocityY(this.getVelocityY());
+                this.getGameObject().setVelocityY(this.velocityY);
                 break;
             case KeyEvent.VK_A :
-                gameObject.setVelocityX(-this.getVelocityX());
+                this.getGameObject().setVelocityX(-this.velocityX);
                 break;
             case KeyEvent.VK_D :
-                gameObject.setVelocityX(this.getVelocityX());
+                this.getGameObject().setVelocityX(this.velocityX);
                 break;
         }
     }
 
-    protected abstract int getVelocityY();
-    protected abstract int getVelocityX();
+    @Override
+    public void handleKeyReleasedEvent(KeyEvent keyEvent, HashMap<Integer, Boolean> keyStates) {
+        int keyCode = keyEvent.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.VK_W :
+                if (keyStates.getOrDefault(KeyEvent.VK_S, false)) {
+                    this.getGameObject().setVelocityY(-this.velocityY);
+                } else {
+                    this.getGameObject().setVelocityY(0);
+                }
+                break;
+            case KeyEvent.VK_S :
+                if (keyStates.getOrDefault(KeyEvent.VK_W, false)) {
+                    this.getGameObject().setVelocityY(this.velocityY);
+                } else {
+                    this.getGameObject().setVelocityY(0);
+                }
+                break;
+            case KeyEvent.VK_A :
+                if (keyStates.getOrDefault(KeyEvent.VK_D, false)) {
+                    this.getGameObject().setVelocityX(this.velocityX);
+                } else {
+                    this.getGameObject().setVelocityX(0);
+                }
+                break;
+            case KeyEvent.VK_D :
+                if (keyStates.getOrDefault(KeyEvent.VK_A, false)) {
+                    this.getGameObject().setVelocityX(-this.velocityX);
+                } else {
+                    this.getGameObject().setVelocityX(0);
+                }
+                break;
+        }
+    }
 }

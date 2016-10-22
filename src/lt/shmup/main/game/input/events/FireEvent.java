@@ -12,8 +12,9 @@ import lt.shmup.main.game.input.InputEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 
-public class FireEvent implements InputEvent {
+public class FireEvent extends InputEvent {
 
     private ObjectHandler objectHandler;
 
@@ -21,12 +22,15 @@ public class FireEvent implements InputEvent {
         this.objectHandler = objectHandler;
     }
 
-    @Override
-    public void handleKeyEvent(KeyEvent keyEvent, GameObject gameObject) {
+    public void handleKeyPressedEvent(KeyEvent keyEvent, HashMap<Integer, Boolean> keyStates) {
         int keyCode = keyEvent.getKeyCode();
         if (keyCode == KeyEvent.VK_SPACE) {
-            this.spawnPlayerProjectile(gameObject);
+            this.spawnPlayerProjectile(this.getGameObject());
         }
+    }
+
+    public void handleKeyReleasedEvent(KeyEvent keyEvent, HashMap<Integer, Boolean> keyStates) {
+        // Do nothing
     }
 
     private void spawnPlayerProjectile(GameObject gameObject) {
