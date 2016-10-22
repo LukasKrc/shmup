@@ -1,10 +1,13 @@
 package lt.shmup.main;
 
+import lt.shmup.main.game.commands.dispatcher.HashMapDispatcher;
 import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.Identifier;
 import lt.shmup.main.game.gameobject.behaviour.handlers.BasicEnemyBehaviour;
 import lt.shmup.main.game.gameobject.collision.handlers.HealthCollision;
+import lt.shmup.main.game.gameobject.factory.FactoryFactory;
+import lt.shmup.main.game.gameobject.factory.GameObjectFactory;
 import lt.shmup.main.game.gameobject.graphics.handlers.GameObjectGraphics;
 import lt.shmup.main.game.gameobject.graphics.handlers.ImageGraphics;
 import lt.shmup.main.game.gameobject.movement.handlers.decorators.ClampDecorator;
@@ -66,6 +69,7 @@ public class Game extends Canvas implements Runnable {
      */
     private KeyStateHandler keyStateHandler;
 
+
     /**
      * Log handler.
      */
@@ -79,7 +83,11 @@ public class Game extends Canvas implements Runnable {
 
 
         this.keyStateHandler = new HashMapKeyStateHandler();
-        this.keyInputHandler = new KeyInputHandler(this.keyStateHandler);
+        this.keyInputHandler = new KeyInputHandler(
+            this.keyStateHandler,
+            new HashMapDispatcher(),
+            new HashMapDispatcher()
+        );
         this.addKeyListener(this.keyInputHandler);
 
         this.createGameObjects();
@@ -89,31 +97,14 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void createGameObjects() {
-        GameObject player = new Player(
-            Utility.WINDOW_WIDTH/2 - 32,
-            Utility.WINDOW_HEIGHT/2 - 32,
-            100,
-            100,
-            Identifier.Player,
-            new ImageGraphics("images/player.png", 32, 32),
-            new ClampDecorator(new PlayerMovement()),
-            new HealthCollision(this.objectHandler)
-        );
+        FactoryFactory factoryFactory = new FactoryFactory(this.objectHandler);
+        GameObjectFactory playerFactory = factoryFactory.getFactory("player");
+        GameObjectFactory enemyFactory = factoryFactory.getFactory("enemy");
+        GameObject player = playerFactory.getCharacter(null);
+        GameObject enemy = enemyFactory.getCharacter(null);
 
         this.interfaceHandler.addInterfaceObject(
             new HealthBar(player, 15, 15, 200, 30, Color.green, Color.white)
-        );
-
-        GameObject enemy = new BasicEnemy(
-            70,
-            70,
-            100,
-            100,
-            Identifier.Enemy,
-            new ImageGraphics("images/enemyShip.png", 32, 32),
-            new ReflectDecorator(new EnemyMovement()),
-            new HealthCollision(this.objectHandler),
-            new BasicEnemyBehaviour(this.objectHandler)
         );
 
         int playerVelocity = 5;

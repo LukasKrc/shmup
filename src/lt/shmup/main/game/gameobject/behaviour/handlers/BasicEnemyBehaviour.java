@@ -39,7 +39,7 @@ public class BasicEnemyBehaviour implements BehaviourHandler {
         int currentTimeInSeconds = (int) (System.currentTimeMillis()/ 1000);
         int movementTimeDelta =
                 currentTimeInSeconds - this.lastMovementChangeTime;
-        if (decision && movementTimeDelta > 1) {
+        if (decision && movementTimeDelta > 4) {
             gameObject.setVelocityX(-gameObject.getVelocityX());
             this.lastMovementChangeTime = currentTimeInSeconds;
 
