@@ -5,34 +5,63 @@ import java.util.LinkedList;
 
 public class ObjectHandler {
 
-    private LinkedList<GameObject> gameObjects = new LinkedList<>();
-    private LinkedList<GameObject> objectAddBuffer = new LinkedList<>();
-    private LinkedList<GameObject> objectRemoveBuffer = new LinkedList<>();
+    private LinkedList<Updateable> updateableObjects = new LinkedList<>();
+    private LinkedList<Updateable> updateableObjectAddBuffer = new LinkedList<>();
+    private LinkedList<Updateable> updateableObjectRemoveBuffer = new LinkedList<>();
+
+    private LinkedList<Renderable> renderableObjects = new LinkedList<>();
+    private LinkedList<Renderable> renderableObjectAddBuffer = new LinkedList<>();
+    private LinkedList<Renderable> renderableObjectRemoveBuffer = new LinkedList<>();
 
     public void update() {
-        for (GameObject gameObject : gameObjects) {
-            gameObject.update();
+        for (Updateable updateableObject : updateableObjects) {
+            updateableObject.update();
         }
-        this.gameObjects.addAll(this.objectAddBuffer);
-        this.gameObjects.removeAll(this.objectRemoveBuffer);
-        this.objectAddBuffer.clear();
+        this.handleUpdateableObjectAdditionAndRemoval();
+        this.handleRenderableObjectAdditionAndRemoval();
+    }
+
+    private void handleUpdateableObjectAdditionAndRemoval() {
+        this.updateableObjects.addAll(this.updateableObjectAddBuffer);
+        this.updateableObjects.removeAll(this.updateableObjectRemoveBuffer);
+        this.updateableObjectAddBuffer.clear();
+        this.updateableObjectRemoveBuffer.clear();
+    }
+
+    private void handleRenderableObjectAdditionAndRemoval() {
+        this.renderableObjects.addAll(this.renderableObjectAddBuffer);
+        this.renderableObjects.removeAll(this.renderableObjectRemoveBuffer);
+        this.renderableObjectAddBuffer.clear();
+        this.renderableObjectRemoveBuffer.clear();
     }
 
     public void render(Graphics2D graphics) {
-        for (GameObject gameObject : gameObjects) {
-            gameObject.render(graphics);
+        for (Renderable renderableObject : renderableObjects) {
+            renderableObject.render(graphics);
         }
     }
 
-    public void addObject(GameObject object) {
-        this.objectAddBuffer.add(object);
+    public void addUpdateableObject(Updateable object) {
+        this.updateableObjectAddBuffer.add(object);
     }
 
-    public void removeObject(GameObject object) {
-        this.objectRemoveBuffer.add(object);
+    public void removeUpdateableObject(Updateable object) {
+        this.updateableObjectRemoveBuffer.add(object);
     }
 
-    public LinkedList<GameObject> getGameObjects() {
-        return this.gameObjects;
+    public LinkedList<Updateable> getUpdateableObjects() {
+        return this.updateableObjects;
+    }
+
+    public void addRenderableObject(Renderable object) {
+        this.renderableObjectAddBuffer.add(object);
+    }
+
+    public void removeRenderableObject(Renderable object) {
+        this.renderableObjectRemoveBuffer.add(object);
+    }
+
+    public LinkedList<Renderable> getRenderableObjects() {
+        return this.renderableObjects;
     }
 }
