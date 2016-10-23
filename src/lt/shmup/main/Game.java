@@ -6,7 +6,6 @@ import lt.shmup.main.game.gameobject.GameObject;
 import lt.shmup.main.game.gameobject.ObjectHandler;
 import lt.shmup.main.game.gameobject.factory.FactoryFactory;
 import lt.shmup.main.game.gameobject.factory.GameObjectFactory;
-import lt.shmup.main.game.gameobject.graphics.handlers.BarGraphics;
 import lt.shmup.main.game.gameobject.graphics.handlers.bargraphics.HealthBarGraphics;
 import lt.shmup.main.game.gameobject.health.HealthHandler;
 import lt.shmup.main.game.gameobject.tracker.valuetracker.HealthValueTracker;
@@ -26,6 +25,7 @@ import lt.shmup.main.game.gameobject.object.userInterface.HealthBar;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.util.HashMap;
 
 public class Game extends Canvas implements Runnable {
 
@@ -42,7 +42,7 @@ public class Game extends Canvas implements Runnable {
     /**
      * Object handler instance that updates and renders game objects.
      */
-    private ObjectHandler objectHandler;
+    private HashMap<GameState, ObjectHandler> objectHandlers = new HashMap<>();
 
     /**
      * Key input handling object.
@@ -55,9 +55,9 @@ public class Game extends Canvas implements Runnable {
     private KeyStateHandler keyStateHandler;
 
     /**
-     * Current game state.
+     * Current game gameState.
      */
-    private GameState state;
+    private GameState gameState;
 
     /**
      * Log handler.
@@ -70,7 +70,9 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void startGame() {
-        this.objectHandler = new ObjectHandler();
+        this.setGameState(GameState.Running);
+        ObjectHandler objectHandler = new ObjectHandler();
+        this.objectHandlers.put(this.gameState, objectHandler);
         this.keyStateHandler = new HashMapKeyStateHandler();
         this.keyInputHandler = new KeyInputHandler(
                 this.keyStateHandler,
@@ -79,21 +81,21 @@ public class Game extends Canvas implements Runnable {
         );
         this.addKeyListener(this.keyInputHandler);
 
-        this.createGameObjects();
+        this.createGameObjects(objectHandler);
 
         this.logger = Logger.getInstance();
         this.logger.log("Game started");
     }
 
-    private void createGameObjects() {
-        FactoryFactory factoryFactory = new FactoryFactory(this.objectHandler);
+    private void createGameObjects(ObjectHandler objectHandler) {
+        FactoryFactory factoryFactory = new FactoryFactory(objectHandler);
         GameObjectFactory playerFactory = factoryFactory.getFactory("player");
         GameObjectFactory enemyFactory = factoryFactory.getFactory("enemy");
         GameObject player = playerFactory.getCharacter(null);
         GameObject enemy = enemyFactory.getCharacter(null);
 
         HealthHandler playerHealthHandler = player.getHealthHandler();
-        this.objectHandler.addObject(
+        objectHandler.addObject(
             new HealthBar(
                 15,
                 15,
@@ -114,7 +116,7 @@ public class Game extends Canvas implements Runnable {
         MoveDown moveDownCommand = new MoveDown(player, playerVelocity);
         MoveRight moveRightCommand = new MoveRight(player, playerVelocity);
         MoveLeft moveLeftCommand = new MoveLeft(player, playerVelocity);
-        FirePressed firePressedCommand = new FirePressed(this.objectHandler, player);
+        FirePressed firePressedCommand = new FirePressed(objectHandler, player);
         this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_W, moveUpCommand);
         this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_S, moveDownCommand);
         this.keyInputHandler.addKeyPressedCommand(KeyEvent.VK_D, moveRightCommand);
@@ -126,8 +128,8 @@ public class Game extends Canvas implements Runnable {
         this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_A, new Horizontal(player, this.keyStateHandler, KeyEvent.VK_D, moveRightCommand));
         this.keyInputHandler.addKeyReleasedCommand(KeyEvent.VK_SPACE, new FireReleased(firePressedCommand));
 
-        this.objectHandler.addObject(player);
-        this.objectHandler.addObject(enemy);
+        objectHandler.addObject(player);
+        objectHandler.addObject(enemy);
     }
 
     public synchronized void start() {
@@ -177,7 +179,7 @@ public class Game extends Canvas implements Runnable {
 
     private void update() {
         try {
-            this.objectHandler.update();
+            this.objectHandlers.getOrDefault(this.gameState, new ObjectHandler()).update();
         } catch (Exception e) {
             this.logger.logException(e);
         }
@@ -199,7 +201,7 @@ public class Game extends Canvas implements Runnable {
                     Utility.WINDOW_WIDTH,
                     Utility.WINDOW_HEIGHT
                 );
-                this.objectHandler.render(graphics);
+                this.objectHandlers.getOrDefault(this.gameState, new ObjectHandler()).render(graphics);
             } catch (Exception e) {
                 this.logger.logException(e);
             } finally {
@@ -209,12 +211,12 @@ public class Game extends Canvas implements Runnable {
         } while (bufferStrategy.contentsLost());
     }
 
-    public GameState getState() {
-        return state;
+    public GameState getGameState() {
+        return gameState;
     }
 
-    public void setState(GameState state) {
-        this.state = state;
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     public static void main(String args[]) {
