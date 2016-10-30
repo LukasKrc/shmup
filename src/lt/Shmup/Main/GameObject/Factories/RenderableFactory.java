@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 public interface RenderableFactory {
-    EntityAwareRenderable createBackgroundGraphics();
+    EntityAwareRenderable createBackgroundGraphics(String type);
     EntityAwareRenderable createImageGraphics(ImageWrapper imageWrapper);
     EntityAwareRenderable createRotatingImageGraphics(
             ImageWrapper imageWrapper,

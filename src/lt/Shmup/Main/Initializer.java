@@ -127,6 +127,7 @@ public class Initializer {;
         entitiesToSpawn.add(randomEnemy);
         Entity spawner = entityFactory.getSpawner(entitiesToSpawn);
         TextEntity scoreText = entityFactory.getScoreText();
+        Entity background = entityFactory.getGameBackground();
 
         attachObservers(player, scoreText);
         addCommands(playerXSpeed, playerYSpeed, player);
@@ -135,6 +136,7 @@ public class Initializer {;
         objectHandler.addEntity(spawner);
         objectHandler.addEntity(player);
         objectHandler.addEntity(healthBar);
+        objectHandler.addEntity(background);
     }
 
     private void attachObservers(Entity player, TextEntity scoreText) {

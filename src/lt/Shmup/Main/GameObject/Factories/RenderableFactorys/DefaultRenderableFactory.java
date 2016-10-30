@@ -37,13 +37,13 @@ public class DefaultRenderableFactory implements lt.Shmup.Main.GameObject.Factor
     }
 
     @Override
-    public EntityAwareRenderable createBackgroundGraphics() {
+    public EntityAwareRenderable createBackgroundGraphics(String type) {
         int width =
-                Config.intg("graphics/images/menu_background/width");
+                Config.intg("graphics/images/" + type + "_background/width");
         int height =
-                Config.intg("graphics/images/menu_background/height");
+                Config.intg("graphics/images/" + type + "_background/height");
         String backgroundImagePath =
-                Config.str("graphics/images/menu_background/path");
+                Config.str("graphics/images/" + type + "_background/path");
         ImageWrapper imageWrapper = imageWrapperFactory
                 .getDefaultImageWrapper(backgroundImagePath, width, height);
 

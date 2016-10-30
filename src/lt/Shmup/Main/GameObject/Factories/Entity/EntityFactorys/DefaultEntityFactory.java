@@ -133,6 +133,8 @@ public class DefaultEntityFactory implements EntityFactory {
         configPaths.add("graphics/images/entities/enemy/random/height");
         configPaths.add("game/values/health/enemy/random/initial");
         configPaths.add("game/values/health/enemy/random/max");
+        configPaths.add("graphics/images/game_background/width");
+        configPaths.add("graphics/images/game_background/height");
         configPaths.add("game/values/damage/collision/enemy/random");
         configPaths.add("game/z-indexes/main_menu_texts");
         configPaths.add("game/z-indexes/main_menu_background");
@@ -295,6 +297,7 @@ public class DefaultEntityFactory implements EntityFactory {
                 .setText("Score: 0")
                 .setFont(renderableFactory.getFont(Font.PLAIN, 18))
                 .setColor(Color.WHITE)
+                .setIsCollidable(false)
                 .getTextEntity(EntityBuilder.RESET_ALL);
     }
 
@@ -337,8 +340,12 @@ public class DefaultEntityFactory implements EntityFactory {
                 integerConfigs.get("graphics/images/menu_background/width");
         int backgroundHeight =
                 integerConfigs.get("graphics/images/menu_background/height");
+        return getBackground(layerIndexBackground, backgroundWidth, backgroundHeight, "menu");
+    }
+
+    private Entity getBackground(int layerIndexBackground, int backgroundWidth, int backgroundHeight, String type) {
         EntityAwareRenderable backgroundRenderable =
-                renderableFactory.createBackgroundGraphics();
+                renderableFactory.createBackgroundGraphics(type);
         return entityBuilder
                 .reset(EntityBuilder.RESET_ALL)
                 .setLayerIndex(layerIndexBackground)
@@ -346,7 +353,19 @@ public class DefaultEntityFactory implements EntityFactory {
                 .setVolume(new BasicVolume(backgroundWidth, backgroundHeight))
                 .setMovement(new ResetDecorator(new LinearMovement(0, 2)))
                 .setRenderable(backgroundRenderable)
+                .setIsCollidable(false)
                 .getEntity();
+    }
+
+    @Override
+    public Entity getGameBackground() {
+        int layerIndexBackground =
+                integerConfigs.get("game/z-indexes/main_menu_background");
+        int backgroundWidth =
+                integerConfigs.get("graphics/images/game_background/width");
+        int backgroundHeight =
+                integerConfigs.get("graphics/images/game_background/height");
+        return getBackground(layerIndexBackground, backgroundWidth, backgroundHeight, "game");
     }
 
     private ButtonEntity getButton(

@@ -282,7 +282,6 @@ public class DefaultEntityBuilder implements EntityBuilder {
         if (volume == null) {
             volume = new BasicVolume(0, 0);
         }
-        isCollidable = true;
         initializeData();
     }
 
@@ -320,6 +319,7 @@ public class DefaultEntityBuilder implements EntityBuilder {
         if ((resetLevel & RESET_RENDERABLES) == RESET_RENDERABLES) {
             renderable = null;
         }
+        isCollidable = true;
     }
 
     @Override

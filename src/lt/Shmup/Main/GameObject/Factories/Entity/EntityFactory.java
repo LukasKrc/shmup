@@ -21,4 +21,6 @@ public interface EntityFactory {
     ButtonEntity getExitButton();
     ButtonEntity getResumeButton();
     Entity getMenuBackground();
+
+    Entity getGameBackground();
 }

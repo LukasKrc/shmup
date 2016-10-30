@@ -12,7 +12,7 @@
     },
     "times": {
       "spawn": {
-        "level_interval": 120,
+        "level_interval": 60,
         "spawn_interval": 10
       }
     },
@@ -28,8 +28,8 @@
             "initial": 200
           },
           "random": {
-            "max": 350,
-            "initial": 350
+            "max": 100,
+            "initial": 100
           }
         }
       },
@@ -90,6 +90,11 @@
     "images": {
       "menu_background": {
         "path": "/images/Background/starBackground.png",
+        "width": 128,
+        "height": 128
+      },
+      "game_background": {
+        "path": "/images/Background/starBackgroundBlack.png",
         "width": 128,
         "height": 128
       },
