@@ -1,0 +1,151 @@
+{
+  "window": {
+    "width": 1024,
+    "height": 768
+  },
+  "game": {
+    "title": "Shmup",
+    "z-indexes": {
+      "projectiles": 100,
+      "main_menu_texts": 2,
+      "main_menu_background": 0
+    },
+    "times": {
+      "spawn": {
+        "level_interval": 120,
+        "spawn_interval": 10
+      }
+    },
+    "values": {
+      "health": {
+        "player": {
+          "max": 2500,
+          "initial": 2500
+        },
+        "enemy": {
+          "basic": {
+            "max": 200,
+            "initial": 200
+          },
+          "random": {
+            "max": 350,
+            "initial": 350
+          }
+        }
+      },
+      "damage": {
+        "collision": {
+          "player": 350,
+          "enemy": {
+            "basic": 25,
+            "random": 100
+          }
+        },
+        "projectile": {
+          "player": 100,
+          "enemy": 50
+        }
+      }
+    },
+    "dimensions": {
+      "projectiles": {
+        "basic": {
+          "width": 2,
+          "height": 8
+        }
+      },
+      "menu": {
+        "button": {
+          "width": 200,
+          "height": 50
+        },
+        "button_gap": "50"
+      }
+    },
+    "movements": {
+      "projectiles": {
+        "basic": {
+          "speed": 5
+        }
+      },
+      "enemies": {
+        "random": {
+          "direction_change_interval": 3
+        }
+      },
+      "player": {
+        "horizontal": 5,
+        "vertical": 5
+      }
+    }
+  },
+  "graphics": {
+    "common": {
+      "font": "Helvetica",
+      "flash_decorator": {
+        "alpha_step": -0.006,
+        "initial_alpha": 0.6
+      }
+    },
+    "images": {
+      "menu_background": {
+        "path": "/images/Background/starBackground.png",
+        "width": 128,
+        "height": 128
+      },
+      "projectiles": {
+        "basic_player": {
+          "path": "/images/laserRed.png"
+        },
+        "basic_enemy": {
+          "path": "/images/laserGreen.png"
+        }
+      },
+      "entities": {
+        "player": {
+          "path": "/images/player.png",
+          "width": 32,
+          "height": 32
+        },
+        "enemy": {
+          "random": {
+            "path": "/images/enemyUFO.png",
+            "width": 32,
+            "height": 32,
+            "rotation_step": 0.005
+          },
+          "basic": {
+            "path": "/images/enemyShip.png",
+            "width": 32,
+            "height": 32
+          }
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "main": {
+      "GameObject.CollisionFinder": "Default",
+      "GameObject.ObjectHandler": "Default",
+      "Graphics.TextCenterer": "Default",
+      "Graphics.ImageReader": "Default",
+      "GameObject.Builders.NullCreator": "Default",
+      "GameObject.Builders.EntityBuilder": "Default",
+      "GameObject.Factories.RenderableFactory": "Default",
+      "Input.MouseInputHandler": "Default",
+      "Input.KeyboardInputHandler": "Default",
+      "Input.KeyState": "HashMap",
+      "Command.CommandDispatchers.MouseCommandDispatcher": "Default",
+      "Command.CommandDispatchers.KeyboardCommandDispatcher": "Default",
+      "Command.CommandStore": "HashMap",
+      "GameObject.Factories.Entity.EnemyFactoryFactory": "Default",
+      "GameObject.Factories.ImageWrapperFactory": "Default",
+      "GameObject.Components.Updateables.Movement.Movements.MovementDecorators.Components.OutOfBoundsChecker": "Default",
+      "GameObject.Factories.Entity.ProjectileFactory": "Default",
+      "GameObject.Factories.Entity.EntityFactory": "Default",
+      "GameObject.Visitor": "Default",
+      "GameObject.Components.Updateables.Collision.HealthCollision": "Default",
+      "GameObject.Components.Renderables.TextRenderer": "Default"
+    }
+  }
+}
