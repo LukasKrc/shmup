@@ -1,19 +1,17 @@
 package lt.Shmup.Main.GameObject.Components.Renderables;
 
 import lt.Shmup.Main.GameObject.Components.State.Position;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
+import lt.Shmup.Main.GameObject.Renderable;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 import lt.Shmup.Main.Graphics.ImageWrapper;
 
 import java.awt.*;
 
-public class ImageGraphics implements EntityAwareRenderable {
+public class ImageGraphics implements Renderable {
     private ImageWrapper imageWrapper;
-
     public ImageGraphics(ImageWrapper imageWrapper) {
         this.imageWrapper = imageWrapper;
     }
-
     public ImageWrapper getImageWrapper() {
         return imageWrapper;
     }
@@ -25,7 +23,7 @@ public class ImageGraphics implements EntityAwareRenderable {
     }
 
     @Override
-    public EntityAwareRenderable clone() {
+    public Renderable clone() {
         return new ImageGraphics(imageWrapper.clone());
     }
 

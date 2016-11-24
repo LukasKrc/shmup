@@ -1,17 +1,10 @@
 package lt.Shmup.Main.GameObject;
 
+import lt.Shmup.Main.GameObject.Objects.Entity;
+
 import java.awt.*;
 
-public abstract class Renderable {
-    private int layerIndex;
-
-    public Renderable(int layerIndex) {
-        this.layerIndex = layerIndex;
-    }
-
-    public int getLayerIndex() {
-        return layerIndex;
-    }
-
-    public abstract void render(Graphics2D graphics);
+public interface Renderable {
+    void render(Graphics2D graphics, Entity entity);
+    Renderable clone();
 }

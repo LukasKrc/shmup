@@ -22,6 +22,7 @@ public class RemovalDecorator extends OutOfBoundsDecorator {
      * Removes renderable and updateable Objects
      * for entity that is out of bounds.
      */
+    @Override
     public void decorate(Entity entity) {
         if (isxOutOfBounds() || isyOutOfBounds()) {
             objectHandler.removeEntity(entity);

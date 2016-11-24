@@ -7,7 +7,7 @@ import lt.Shmup.Logger;
 import java.util.HashMap;
 
 public class ClassRegistrator {
-    void createMainDependencies() {
+    public void createMainDependencies() {
         HashMap<String, String> classMap = Config.map("dependencies/main");
         for (String interfaceName : classMap.keySet()) {
             String implementationName = classMap.get(interfaceName);
@@ -15,7 +15,7 @@ public class ClassRegistrator {
         }
     }
 
-    void registerClass(String interfaceName, String implementationName) {
+    private void registerClass(String interfaceName, String implementationName) {
         try {
             attemptClassRegistration(interfaceName, implementationName);
         } catch (ClassNotFoundException e) {
@@ -24,7 +24,7 @@ public class ClassRegistrator {
         }
     }
 
-    void attemptClassRegistration(
+    private void attemptClassRegistration(
             String interfaceName,
             String implementationName
     ) throws ClassNotFoundException {
@@ -40,7 +40,7 @@ public class ClassRegistrator {
         );
     }
 
-    String getImplementationClassName(String interfaceName, String implementationName, Class interfaceClass) {
+    private String getImplementationClassName(String interfaceName, String implementationName, Class interfaceClass) {
         implementationName =
                 interfaceName + "s." + implementationName + interfaceClass.getSimpleName();
         return implementationName;

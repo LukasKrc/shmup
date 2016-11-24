@@ -1,9 +1,8 @@
 package lt.Shmup.Main.GameObject.Components.Renderables;
 
 import lt.Shmup.Main.GameObject.Components.State.Position;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
+import lt.Shmup.Main.GameObject.Renderable;
 import lt.Shmup.Main.Graphics.ImageWrapper;
-import lt.Shmup.Main.GameObject.Components.State.Positions.BasicPosition;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -22,7 +21,7 @@ public class RotatingImageGraphics extends ImageGraphics {
     }
 
     @Override
-    public EntityAwareRenderable clone() {
+    public Renderable clone() {
         return new RotatingImageGraphics(getImageWrapper(), rotationStep);
     }
 

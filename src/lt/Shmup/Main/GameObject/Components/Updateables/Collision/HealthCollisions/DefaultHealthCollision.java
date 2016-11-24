@@ -3,7 +3,6 @@ package lt.Shmup.Main.GameObject.Components.Updateables.Collision.HealthCollisio
 
 import lt.Shmup.Main.GameObject.CollisionFinder;
 import lt.Shmup.Main.GameObject.Components.Updateables.Collision.HealthCollision;
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
 import lt.Shmup.Main.GameObject.Objects.Entities.DamageCausingEntity;
 import lt.Shmup.Main.GameObject.Objects.Identifier;
 import lt.Shmup.Main.GameObject.Objects.Entity;

@@ -4,8 +4,8 @@ import lt.Shmup.Main.GameObject.Components.State.Position;
 import lt.Shmup.Main.GameObject.Components.State.Volume;
 import lt.Shmup.Main.GameObject.Components.Updateables.Health.Health;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movement;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Renderable;
+import lt.Shmup.Main.GameObject.Updateable;
 import lt.Shmup.Main.GameObject.Objects.Components.EntityObserver;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 import lt.Shmup.Main.GameObject.Objects.Identifier;
@@ -27,9 +27,8 @@ public class TextEntity extends Entity {
             Volume volume,
             Health health,
             Movement movement,
-            EntityAwareUpdateable behaviour,
-            EntityAwareRenderable renderable,
-            HashMap<String, String> data,
+            Updateable behaviour,
+            Renderable renderable,
             boolean isCollidable,
             LinkedList<EntityObserver> observers,
             String text,
@@ -45,7 +44,6 @@ public class TextEntity extends Entity {
                 movement,
                 behaviour,
                 renderable,
-                data,
                 isCollidable,
                 observers
         );
@@ -56,10 +54,6 @@ public class TextEntity extends Entity {
 
     public Font getFont() {
         return font;
-    }
-
-    public void setFont(Font font) {
-        this.font = font;
     }
 
     public String getText() {

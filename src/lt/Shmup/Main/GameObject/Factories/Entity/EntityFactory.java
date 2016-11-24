@@ -13,14 +13,11 @@ public interface EntityFactory {
     DamageCausingEntity getPlayer();
     Entity getSpawner(LinkedList<Entity> entitiesToSpawn);
     Entity getHealthBar(Entity player);
-
     TextEntity getScoreText();
-
     Entity getTitleText(String text);
     ButtonEntity getPlayButton();
     ButtonEntity getExitButton();
     ButtonEntity getResumeButton();
     Entity getMenuBackground();
-
     Entity getGameBackground();
 }

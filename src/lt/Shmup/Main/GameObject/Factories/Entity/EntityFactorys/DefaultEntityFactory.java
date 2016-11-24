@@ -13,7 +13,7 @@ import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.Moveme
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.MovementDecorators.Components.OutOfBoundsChecker;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.MovementDecorators.OutOfBoundsDecorators.ReflectDecorator;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.MovementDecorators.ResetDecorator;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
+import lt.Shmup.Main.GameObject.Renderable;
 import lt.Shmup.Main.GameObject.Factories.Entity.EnemyFactory;
 import lt.Shmup.Main.GameObject.Factories.Entity.EnemyFactoryFactory;
 import lt.Shmup.Main.GameObject.Factories.Entity.EntityFactory;
@@ -40,11 +40,9 @@ public class DefaultEntityFactory implements EntityFactory {
     private HashMap<String, Float> floatConfigs = new HashMap<>();
     private ImageWrapperFactory imageWrapperFactory;
     private Color collisionColor;
-    private EnemyFactoryFactory enemyFactoryFactory;
     private EnemyFactory basicEnemyFactory;
     private EnemyFactory randomEnemyFactory;
     private OutOfBoundsChecker outOfBoundsChecker;
-    private TextRenderer textRenderer;
     private HashMap<ButtonState, Color> buttonStateColors;
 
     public DefaultEntityFactory(
@@ -52,19 +50,16 @@ public class DefaultEntityFactory implements EntityFactory {
             EntityBuilder entityBuilder,
             ImageWrapperFactory imageWrapperFactory,
             EnemyFactoryFactory enemyFactoryFactory,
-            OutOfBoundsChecker outOfBoundsChecker,
-            TextRenderer textRenderer
+            OutOfBoundsChecker outOfBoundsChecker
     ) {
         this.renderableFactory = renderableFactory;
         this.entityBuilder = entityBuilder;
         this.imageWrapperFactory = imageWrapperFactory;
-        this.enemyFactoryFactory = enemyFactoryFactory;
         this.outOfBoundsChecker = outOfBoundsChecker;
         populateConfigs();
         this.collisionColor = new Color(200, 10, 10);
         this.basicEnemyFactory = enemyFactoryFactory.getFactory("basic");
         this.randomEnemyFactory = enemyFactoryFactory.getFactory("random");
-        this.textRenderer = textRenderer;
         buttonStateColors = renderableFactory.createButtonStateColors();
     }
 
@@ -344,7 +339,7 @@ public class DefaultEntityFactory implements EntityFactory {
     }
 
     private Entity getBackground(int layerIndexBackground, int backgroundWidth, int backgroundHeight, String type) {
-        EntityAwareRenderable backgroundRenderable =
+        Renderable backgroundRenderable =
                 renderableFactory.createBackgroundGraphics(type);
         return entityBuilder
                 .reset(EntityBuilder.RESET_ALL)

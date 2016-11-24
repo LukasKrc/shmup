@@ -1,7 +1,7 @@
 package lt.Shmup.Main.GameObject.Factories.Entity.EnemyFactorys;
 
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Renderable;
+import lt.Shmup.Main.GameObject.Updateable;
 import lt.Shmup.Main.GameObject.Factories.Entity.EnemyFactory;
 import lt.Shmup.Main.GameObject.Components.Updateables.Behaviour.BasicBehaviour;
 import lt.Shmup.Main.Graphics.ImageWrapper;
@@ -16,12 +16,12 @@ public class BasicEnemyFactory extends EnemyFactory {
     }
 
     @Override
-    public EntityAwareUpdateable getBehaviour() {
+    public Updateable getBehaviour() {
         return new BasicBehaviour(random);
     }
 
     @Override
-    public EntityAwareRenderable getGraphics(
+    public Renderable getGraphics(
             ImageWrapper imageWrapper
     ) {
         return getRenderableFactory().createImageGraphics(imageWrapper);

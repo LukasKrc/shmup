@@ -1,29 +1,10 @@
 package lt.Shmup;
 
-import lt.Shmup.Main.Command.CommandDispatchers.KeyboardCommandDispatchers.DefaultKeyboardCommandDispatcher;
-import lt.Shmup.Main.Command.CommandDispatchers.MouseCommandDispatchers.DefaultMouseCommandDispatcher;
-import lt.Shmup.Main.Command.CommandStores.HashMapCommandStore;
-import lt.Shmup.Main.GameObject.CollisionFinder;
-import lt.Shmup.Main.GameObject.ObjectHandlers.DefaultObjectHandler;
 import lt.Shmup.Main.GameState;
 import lt.Shmup.Main.Initializer;
 import lt.Shmup.Main.GameObject.ObjectHandler;
-import lt.Shmup.Main.Input.KeyboardInputHandlers.DefaultKeyboardInputHandler;
 import lt.Shmup.Main.Input.KeyboardInputHandler;
-import lt.Shmup.Main.Input.KeyStates.HashMapKeyState;
 import lt.Shmup.Main.Input.MouseInputHandler;
-import lt.Shmup.Main.Input.MouseInputHandlers.DefaultMouseInputHandler;
-//import lt.Shmup.main.Main.GameObject.Components.Behaviour.Behaviour;
-//import lt.Shmup.main.Main.GameObject.Components.collision.Behaviours.HealthCollision;
-//import lt.Shmup.main.Main.GameObject.Components.Renderables.decorators.FlashGraphicsDecorator;
-//import lt.Shmup.main.Main.GameObject.Components.KeyStates.Health;
-//import lt.Shmup.main.Main.GameObject.Components.KeyStates.Healths.DeathHealth;
-//import lt.Shmup.main.Main.GameObject.Components.spawner.ProjectileSpawner;
-//import lt.Shmup.main.Main.GameObject.Components.Renderables.ImageGraphics;
-//import lt.Shmup.main.Main.GameObject.Objects.Entities.Enemy;
-//import lt.Shmup.main.Main.GameObject.Objects.Entities.Player;
-//import lt.Shmup.main.Main.Input.Commands.Keyboard.Firing.FirePressed;
-//import lt.Shmup.main.Main.Input.Commands.Keyboard.Firing.FireReleased;
 
 import javax.swing.*;
 import java.awt.*;

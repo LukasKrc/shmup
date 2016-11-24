@@ -3,13 +3,13 @@ package lt.Shmup.Main.GameObject.Components.Renderables;
 import lt.Shmup.Utility;
 import lt.Shmup.Main.GameObject.Components.State.Position;
 import lt.Shmup.Main.GameObject.Components.State.Volume;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
+import lt.Shmup.Main.GameObject.Renderable;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 import lt.Shmup.Main.Graphics.ImageWrapper;
 
 import java.awt.*;
 
-public class ScrollingBackgroundGraphics implements EntityAwareRenderable {
+public class ScrollingBackgroundGraphics implements Renderable {
     private ImageWrapper imageWrapper;
 
     private Graphics graphics;
@@ -34,7 +34,7 @@ public class ScrollingBackgroundGraphics implements EntityAwareRenderable {
     }
 
     @Override
-    public EntityAwareRenderable clone() {
+    public Renderable clone() {
         return new ScrollingBackgroundGraphics(imageWrapper);
     }
 

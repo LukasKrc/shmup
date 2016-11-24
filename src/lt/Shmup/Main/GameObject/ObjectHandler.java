@@ -11,5 +11,4 @@ public interface ObjectHandler {
     void render(Graphics2D graphics);
     void addEntity(Entity entity);
     void removeEntity(Entity entity);
-    void addEntities(Collection entities);
 }

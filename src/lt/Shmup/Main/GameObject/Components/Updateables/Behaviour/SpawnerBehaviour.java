@@ -1,6 +1,6 @@
 package lt.Shmup.Main.GameObject.Components.Updateables.Behaviour;
 
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Updateable;
 import lt.Shmup.Main.GameObject.Factories.Entity.EntityFactory;
 import lt.Shmup.Main.GameObject.ObjectHandler;
 import lt.Shmup.Main.GameObject.Objects.Components.EntityObservers.DamageTakenObserver;
@@ -9,14 +9,12 @@ import lt.Shmup.Main.GameObject.Objects.Components.EntityObservers.ProjectileSpa
 import lt.Shmup.Main.GameObject.Objects.Entities.DamageCausingEntity;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 
-import java.util.LinkedList;
-
-public class SpawnerBehaviour implements EntityAwareUpdateable {
+public class SpawnerBehaviour implements Updateable {
     private EntityFactory entityFactory;
     private int level = 0;
     private int levelInterval;
-    private int lastLevelTime = 0;
-    private int lastSpawnTime = 0;
+    private long lastLevelTime = 0;
+    private long lastSpawnTime = 0;
     private int spawnInterval;
 
     public SpawnerBehaviour(
@@ -31,7 +29,7 @@ public class SpawnerBehaviour implements EntityAwareUpdateable {
 
     @Override
     public void update(Entity entity) {
-        int currentTime = (int) System.currentTimeMillis()/ 1000;
+        long currentTime = (long) System.currentTimeMillis()/ 1000;
         if ((currentTime - lastLevelTime) > levelInterval) {
             level++;
             lastLevelTime = currentTime;
@@ -59,7 +57,7 @@ public class SpawnerBehaviour implements EntityAwareUpdateable {
     }
 
     @Override
-    public EntityAwareUpdateable clone() {
+    public Updateable clone() {
         return new SpawnerBehaviour(
                 entityFactory,
                 levelInterval,

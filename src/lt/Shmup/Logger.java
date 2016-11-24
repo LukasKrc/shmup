@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Logger {
-
     private static Logger instance;
     private String logFolder;
     private BufferedWriter logFileWriter;

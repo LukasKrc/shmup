@@ -32,9 +32,5 @@ public abstract class ImageWrapper {
         return image;
     };
 
-    public void setImage(Image image) {
-        this.image = image;
-    };
-
     public abstract ImageWrapper clone();
 }

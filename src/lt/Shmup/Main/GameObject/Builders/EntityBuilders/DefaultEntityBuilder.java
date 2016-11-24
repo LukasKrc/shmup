@@ -6,8 +6,8 @@ import lt.Shmup.Main.GameObject.Components.State.Position;
 import lt.Shmup.Main.GameObject.Components.State.Volume;
 import lt.Shmup.Main.GameObject.Components.Updateables.Health.Health;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movement;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Renderable;
+import lt.Shmup.Main.GameObject.Updateable;
 import lt.Shmup.Main.GameObject.Objects.Components.EntityObserver;
 import lt.Shmup.Main.GameObject.Objects.Entities.ButtonEntity;
 import lt.Shmup.Main.GameObject.Objects.Entities.DamageCausingEntity;
@@ -30,9 +30,8 @@ public class DefaultEntityBuilder implements EntityBuilder {
     private Volume volume;
     private Health health;
     private Movement movement;
-    private EntityAwareUpdateable behaviour;
-    private EntityAwareRenderable renderable;
-    private HashMap<String, String> data;
+    private Updateable behaviour;
+    private Renderable renderable;
     private boolean isCollidable;
     private int collisionDamage;
     private String text;
@@ -87,21 +86,14 @@ public class DefaultEntityBuilder implements EntityBuilder {
     }
 
     @Override
-    public EntityBuilder setBehaviour(EntityAwareUpdateable behaviour) {
+    public EntityBuilder setBehaviour(Updateable behaviour) {
         this.behaviour = behaviour;
         return this;
     }
 
     @Override
-    public EntityBuilder setRenderable(EntityAwareRenderable renderable) {
+    public EntityBuilder setRenderable(Renderable renderable) {
         this.renderable = renderable;
-        return this;
-    }
-
-    @Override
-    public EntityBuilder putData(String key, String dataValue) {
-        initializeData();
-        data.put(key, dataValue);
         return this;
     }
 
@@ -123,11 +115,6 @@ public class DefaultEntityBuilder implements EntityBuilder {
     }
 
     @Override
-    public DamageCausingEntity getDamageCausingEntity() {
-        return getDamageCausingEntity(RESET_NONE);
-    }
-
-    @Override
     public DamageCausingEntity getDamageCausingEntity(int resetLevel) {
         setNullFields();
         DamageCausingEntity entity = createDamageCausingEntity();
@@ -145,15 +132,9 @@ public class DefaultEntityBuilder implements EntityBuilder {
                 movement,
                 behaviour,
                 renderable,
-                data,
                 isCollidable,
                 collisionDamage
         );
-    }
-
-    @Override
-    public ButtonEntity getButtonEntity() {
-        return getButtonEntity(RESET_ALL);
     }
 
     @Override
@@ -174,7 +155,6 @@ public class DefaultEntityBuilder implements EntityBuilder {
                 movement,
                 behaviour,
                 renderable,
-                data,
                 isCollidable,
                 new LinkedList<EntityObserver>(),
                 text,
@@ -203,14 +183,6 @@ public class DefaultEntityBuilder implements EntityBuilder {
     }
 
     @Override
-    public TextEntity getTextEntity() {
-        setNullFields();
-        TextEntity entity = createTextEntity();
-        resetFields(RESET_ALL);
-        return entity;
-    }
-
-    @Override
     public TextEntity getTextEntity(int resetLevel) {
         setNullFields();
         TextEntity entity = createTextEntity();
@@ -228,7 +200,6 @@ public class DefaultEntityBuilder implements EntityBuilder {
                 movement,
                 behaviour,
                 renderable,
-                data,
                 isCollidable,
                 new LinkedList<EntityObserver>(),
                 text,
@@ -245,12 +216,6 @@ public class DefaultEntityBuilder implements EntityBuilder {
         return entity;
     }
 
-    private void initializeData() {
-        if (data == null) {
-            data = new HashMap<String, String>();
-        }
-    }
-
     private Entity createEntity() {
         return new Entity(
                 layerIndex,
@@ -261,7 +226,6 @@ public class DefaultEntityBuilder implements EntityBuilder {
                 movement,
                 behaviour,
                 renderable,
-                data,
                 isCollidable
         );
     }
@@ -282,7 +246,6 @@ public class DefaultEntityBuilder implements EntityBuilder {
         if (volume == null) {
             volume = new BasicVolume(0, 0);
         }
-        initializeData();
     }
 
     private void setNullUpdateables() {
@@ -292,7 +255,7 @@ public class DefaultEntityBuilder implements EntityBuilder {
         if (movement == null) {
             movement = nullCreator.getMovement();
         }
-        EntityAwareUpdateable nullUpdateable = nullCreator.getUpdateable();
+        Updateable nullUpdateable = nullCreator.getUpdateable();
         if (behaviour == null) {
             behaviour = nullUpdateable;
         }
@@ -306,7 +269,6 @@ public class DefaultEntityBuilder implements EntityBuilder {
 
     private void resetFields(int resetLevel) {
         if ((resetLevel & RESET_DATA) == RESET_DATA) {
-            data = null;
             identifier = null;
         }
         if ((resetLevel & RESET_UPDATEABLES) == RESET_UPDATEABLES) {

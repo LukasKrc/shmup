@@ -9,12 +9,8 @@ import java.awt.*;
 
 public interface Visitor {
     void visitRendering(Graphics2D graphics, Entity entity);
-
     void visitRendering(Graphics2D graphics, TextEntity entity);
-
     void visitRendering(Graphics2D graphics, ButtonEntity button);
-
     void visitUpdating(Entity entity);
-
     void visitUpdating(DamageCausingEntity entity);
 }

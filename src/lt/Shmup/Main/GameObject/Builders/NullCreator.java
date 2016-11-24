@@ -2,12 +2,12 @@ package lt.Shmup.Main.GameObject.Builders;
 
 import lt.Shmup.Main.GameObject.Components.Updateables.Health.Health;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movement;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Renderable;
+import lt.Shmup.Main.GameObject.Updateable;
 
 public interface NullCreator {
     Health getHealth();
     Movement getMovement();
-    EntityAwareUpdateable getUpdateable();
-    EntityAwareRenderable getRenderable();
+    Updateable getUpdateable();
+    Renderable getRenderable();
 }

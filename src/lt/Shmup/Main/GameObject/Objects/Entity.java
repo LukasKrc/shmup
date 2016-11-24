@@ -18,11 +18,10 @@ public class Entity implements Visitable {
     private Volume volume;
     private Health health;
     private Movement movement;
-    private EntityAwareUpdateable behaviour;
-    private EntityAwareRenderable renderable;
+    private Updateable behaviour;
+    private Renderable renderable;
     private ObjectHandler objectHandler;
     private LinkedList<EntityObserver> observers = new LinkedList<>();
-    private HashMap<String, String> data;
     private boolean isCollidable;
 
     public Entity(
@@ -32,9 +31,8 @@ public class Entity implements Visitable {
             Volume volume,
             Health health,
             Movement movement,
-            EntityAwareUpdateable behaviour,
-            EntityAwareRenderable renderable,
-            HashMap<String, String> data,
+            Updateable behaviour,
+            Renderable renderable,
             boolean isCollidable,
             LinkedList<EntityObserver> observers
     ) {
@@ -46,7 +44,6 @@ public class Entity implements Visitable {
         this.movement = movement;
         this.behaviour = behaviour;
         this.renderable = renderable;
-        this.data = data;
         this.isCollidable = isCollidable;
         this.observers = observers;
     }
@@ -58,9 +55,8 @@ public class Entity implements Visitable {
             Volume volume,
             Health health,
             Movement movement,
-            EntityAwareUpdateable behaviour,
-            EntityAwareRenderable renderable,
-            HashMap<String, String> data,
+            Updateable behaviour,
+            Renderable renderable,
             boolean isCollidable
     ) {
         this.layerIndex = layerIndex;
@@ -71,7 +67,6 @@ public class Entity implements Visitable {
         this.movement = movement;
         this.behaviour = behaviour;
         this.renderable = renderable;
-        this.data = data;
         this.isCollidable = isCollidable;
     }
 
@@ -119,19 +114,19 @@ public class Entity implements Visitable {
         this.movement = movement;
     }
 
-    public EntityAwareUpdateable getBehaviour() {
+    public Updateable getBehaviour() {
         return behaviour;
     }
 
-    public void setBehaviour(EntityAwareUpdateable behaviour) {
+    public void setBehaviour(Updateable behaviour) {
         this.behaviour = behaviour;
     }
 
-    public EntityAwareRenderable getRenderable() {
+    public Renderable getRenderable() {
         return renderable;
     }
 
-    public void setRenderable(EntityAwareRenderable renderable) {
+    public void setRenderable(Renderable renderable) {
         this.renderable = renderable;
     }
 
@@ -145,14 +140,6 @@ public class Entity implements Visitable {
 
     public void setObjectHandler(ObjectHandler objectHandler) {
         this.objectHandler = objectHandler;
-    }
-
-    public String getData(String key) {
-        return data.getOrDefault(key, "");
-    }
-
-    public void setData(String key, String dataValue) {
-        data.put(key, dataValue);
     }
 
     public void attachObserver(EntityObserver observer) {
@@ -175,7 +162,6 @@ public class Entity implements Visitable {
                 movement.clone(),
                 behaviour.clone(),
                 renderable.clone(),
-                data,
                 isCollidable
         );
         for (EntityObserver observer : observers) {

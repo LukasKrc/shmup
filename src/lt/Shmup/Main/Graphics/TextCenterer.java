@@ -6,9 +6,6 @@ import lt.Shmup.Main.GameObject.Components.State.Volume;
 
 import java.awt.*;
 
-/**
- * Created by lukas on 16.10.28.
- */
 public interface TextCenterer {
     BasicPosition createCenteredTextPosition(
             Graphics graphics,

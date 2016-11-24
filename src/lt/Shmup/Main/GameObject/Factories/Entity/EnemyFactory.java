@@ -1,8 +1,8 @@
 package lt.Shmup.Main.GameObject.Factories.Entity;
 
 import lt.Shmup.Container;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Renderable;
+import lt.Shmup.Main.GameObject.Updateable;
 import lt.Shmup.Main.GameObject.Factories.RenderableFactory;
 import lt.Shmup.Main.Graphics.ImageWrapper;
 
@@ -18,7 +18,7 @@ public abstract class EnemyFactory {
         return renderableFactory;
     }
 
-    public abstract EntityAwareUpdateable getBehaviour();
-    public abstract EntityAwareRenderable getGraphics(
+    public abstract Updateable getBehaviour();
+    public abstract Renderable getGraphics(
             ImageWrapper imageWrapper);
 }

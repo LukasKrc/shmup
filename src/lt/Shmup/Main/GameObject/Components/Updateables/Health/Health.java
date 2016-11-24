@@ -1,9 +1,8 @@
 package lt.Shmup.Main.GameObject.Components.Updateables.Health;
 
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
-import lt.Shmup.Main.GameObject.Objects.Components.EntityObserver;
+import lt.Shmup.Main.GameObject.Updateable;
 
-public abstract class Health implements EntityAwareUpdateable {
+public abstract class Health implements Updateable {
     private int minimumHealth, maximumHealth, health;
 
     public Health(int minimumHealth, int maximumHealth, int health) {

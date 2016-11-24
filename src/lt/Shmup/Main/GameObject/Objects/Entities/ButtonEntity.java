@@ -4,8 +4,8 @@ import lt.Shmup.Main.GameObject.Components.State.Position;
 import lt.Shmup.Main.GameObject.Components.State.Volume;
 import lt.Shmup.Main.GameObject.Components.Updateables.Health.Health;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movement;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Renderable;
+import lt.Shmup.Main.GameObject.Updateable;
 import lt.Shmup.Main.GameObject.Objects.Components.EntityObserver;
 import lt.Shmup.Main.GameObject.Objects.Identifier;
 import lt.Shmup.Main.GameObject.Visitor;
@@ -25,9 +25,8 @@ public class ButtonEntity extends TextEntity {
             Volume volume,
             Health health,
             Movement movement,
-            EntityAwareUpdateable behaviour,
-            EntityAwareRenderable renderable,
-            HashMap<String, String> data,
+            Updateable behaviour,
+            Renderable renderable,
             boolean isCollidable,
             LinkedList<EntityObserver> observers,
             String text,
@@ -44,7 +43,6 @@ public class ButtonEntity extends TextEntity {
                 movement,
                 behaviour,
                 renderable,
-                data,
                 isCollidable,
                 observers,
                 text,
@@ -64,10 +62,6 @@ public class ButtonEntity extends TextEntity {
 
     public HashMap<ButtonState, Color> getButtonStateColors() {
         return buttonStateColors;
-    }
-
-    public void setButtonStateColors(HashMap<ButtonState, Color> buttonStateColors) {
-        this.buttonStateColors = buttonStateColors;
     }
 
     @Override

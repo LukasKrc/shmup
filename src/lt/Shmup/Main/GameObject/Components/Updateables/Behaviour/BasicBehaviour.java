@@ -1,12 +1,12 @@
 package lt.Shmup.Main.GameObject.Components.Updateables.Behaviour;
 
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Updateable;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movement;
 
 import java.util.Random;
 
-public class BasicBehaviour implements EntityAwareUpdateable {
+public class BasicBehaviour implements Updateable {
     private Random randomGenerator;
     private int lastMovementChangeTime;
     private int movementChangeInterval;
@@ -29,7 +29,7 @@ public class BasicBehaviour implements EntityAwareUpdateable {
     }
 
     @Override
-    public EntityAwareUpdateable clone() {
+    public Updateable clone() {
         return new BasicBehaviour(randomGenerator);
     }
 

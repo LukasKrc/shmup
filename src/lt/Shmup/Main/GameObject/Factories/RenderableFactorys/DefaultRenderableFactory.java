@@ -4,8 +4,7 @@ import lt.Shmup.Config;
 import lt.Shmup.Main.GameObject.Factories.ImageWrapperFactory;
 import lt.Shmup.Main.GameObject.Objects.Entities.ButtonState;
 import lt.Shmup.Main.GameObject.Objects.Entity;
-import lt.Shmup.Main.Graphics.TextCenterer;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
+import lt.Shmup.Main.GameObject.Renderable;
 import lt.Shmup.Main.GameObject.Components.Renderables.*;
 import lt.Shmup.Main.Graphics.ImageWrapper;
 
@@ -37,7 +36,7 @@ public class DefaultRenderableFactory implements lt.Shmup.Main.GameObject.Factor
     }
 
     @Override
-    public EntityAwareRenderable createBackgroundGraphics(String type) {
+    public Renderable createBackgroundGraphics(String type) {
         int width =
                 Config.intg("graphics/images/" + type + "_background/width");
         int height =
@@ -51,14 +50,14 @@ public class DefaultRenderableFactory implements lt.Shmup.Main.GameObject.Factor
     }
 
     @Override
-    public EntityAwareRenderable createImageGraphics(
+    public Renderable createImageGraphics(
             ImageWrapper imageWrapper
     ) {
         return new ImageGraphics(imageWrapper);
     }
 
     @Override
-    public EntityAwareRenderable createRotatingImageGraphics(
+    public Renderable createRotatingImageGraphics(
             ImageWrapper imageWrapper,
             float rotationStep
     ) {
@@ -66,7 +65,7 @@ public class DefaultRenderableFactory implements lt.Shmup.Main.GameObject.Factor
     }
 
     @Override
-    public EntityAwareRenderable createHealthBarGraphics(Entity entity) {
+    public Renderable createHealthBarGraphics(Entity entity) {
         return new HealthBarGraphics(entity);
     }
 

@@ -5,9 +5,9 @@ import lt.Shmup.Main.GameObject.Components.Updateables.Health.Healths.NullHealth
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movement;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.NullMovement;
 import lt.Shmup.Main.GameObject.Components.Updateables.NullUpdateable;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
+import lt.Shmup.Main.GameObject.Renderable;
 import lt.Shmup.Main.GameObject.Components.Renderables.NullRenderable;
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Updateable;
 
 public class DefaultNullCreator implements lt.Shmup.Main.GameObject.Builders.NullCreator {
     @Override
@@ -21,12 +21,12 @@ public class DefaultNullCreator implements lt.Shmup.Main.GameObject.Builders.Nul
     }
 
     @Override
-    public EntityAwareUpdateable getUpdateable() {
+    public Updateable getUpdateable() {
         return new NullUpdateable();
     }
 
     @Override
-    public EntityAwareRenderable getRenderable() {
+    public Renderable getRenderable() {
         return new NullRenderable();
     }
 }

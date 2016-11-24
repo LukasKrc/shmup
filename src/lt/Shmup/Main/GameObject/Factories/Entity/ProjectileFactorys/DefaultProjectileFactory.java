@@ -3,7 +3,6 @@ package lt.Shmup.Main.GameObject.Factories.Entity.ProjectileFactorys;
 import lt.Shmup.Config;
 import lt.Shmup.Main.GameObject.Builders.EntityBuilder;
 import lt.Shmup.Main.GameObject.Components.State.Volumes.BasicVolume;
-import lt.Shmup.Main.GameObject.Components.Updateables.Collision.HealthCollisions.DefaultHealthCollision;
 import lt.Shmup.Main.GameObject.Components.Updateables.Health.Health;
 import lt.Shmup.Main.GameObject.Components.Updateables.Health.Healths.DeathHealth;
 import lt.Shmup.Main.GameObject.Factories.Entity.ProjectileFactory;
@@ -11,14 +10,12 @@ import lt.Shmup.Main.GameObject.Factories.ImageWrapperFactory;
 import lt.Shmup.Main.GameObject.Factories.RenderableFactory;
 import lt.Shmup.Main.GameObject.Objects.Components.EntityObservers.DamageTakenObserver;
 import lt.Shmup.Main.GameObject.Objects.Entities.DamageCausingEntity;
-import lt.Shmup.Main.GameObject.Objects.Entity;
 import lt.Shmup.Main.GameObject.Objects.Identifier;
 import lt.Shmup.Main.Graphics.ImageWrapper;
 
 
 public class DefaultProjectileFactory implements ProjectileFactory {
     private RenderableFactory renderableFactory;
-    private ImageWrapperFactory imageWrapperFactory;
     private ImageWrapper playerProjectileImageWrapper;
     private ImageWrapper enemyProjectileImageWrapper;
     private int playerProjectileDamage;
@@ -31,7 +28,6 @@ public class DefaultProjectileFactory implements ProjectileFactory {
         EntityBuilder entityBuilder
     ) {
         this.renderableFactory = renderableFactory;
-        this.imageWrapperFactory = imageWrapperFactory;
         int layerIndex =
                 Config.intg("game/z-indexes/projectiles");
         playerProjectileDamage =
@@ -61,6 +57,7 @@ public class DefaultProjectileFactory implements ProjectileFactory {
         Health projectileHealth = new DeathHealth(0, 1, 1);
         projectile = entityBuilder
                 .reset(EntityBuilder.RESET_ALL)
+                .setLayerIndex(layerIndex)
                 .setVolume(new BasicVolume(projectileWidth, projectileHeight))
                 .setHealth(projectileHealth)
                 .getDamageCausingEntity(EntityBuilder.RESET_ALL);

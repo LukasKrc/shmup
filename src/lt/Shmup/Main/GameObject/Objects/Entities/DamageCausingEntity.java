@@ -4,8 +4,8 @@ import lt.Shmup.Main.GameObject.Components.State.Position;
 import lt.Shmup.Main.GameObject.Components.State.Volume;
 import lt.Shmup.Main.GameObject.Components.Updateables.Health.Health;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movement;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Renderable;
+import lt.Shmup.Main.GameObject.Updateable;
 import lt.Shmup.Main.GameObject.Objects.Components.EntityObserver;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 import lt.Shmup.Main.GameObject.Objects.Identifier;
@@ -24,9 +24,8 @@ public class DamageCausingEntity extends Entity {
             Volume volume,
             Health health,
             Movement movement,
-            EntityAwareUpdateable behaviour,
-            EntityAwareRenderable renderable,
-            HashMap<String, String> data,
+            Updateable behaviour,
+            Renderable renderable,
             boolean isCollidable,
             int collisionDamage,
             LinkedList<EntityObserver> observers
@@ -40,7 +39,6 @@ public class DamageCausingEntity extends Entity {
                 movement,
                 behaviour,
                 renderable,
-                data,
                 isCollidable,
                 observers
         );
@@ -54,9 +52,8 @@ public class DamageCausingEntity extends Entity {
             Volume volume,
             Health health,
             Movement movement,
-            EntityAwareUpdateable behaviour,
-            EntityAwareRenderable renderable,
-            HashMap<String, String> data,
+            Updateable behaviour,
+            Renderable renderable,
             boolean isCollidable,
             int collisionDamage
     ) {
@@ -69,7 +66,6 @@ public class DamageCausingEntity extends Entity {
                 movement,
                 behaviour,
                 renderable,
-                data,
                 isCollidable
         );
         this.collisionDamage = collisionDamage;
@@ -94,7 +90,6 @@ public class DamageCausingEntity extends Entity {
                 getMovement().clone(),
                 getBehaviour().clone(),
                 getRenderable().clone(),
-                new HashMap<>(),
                 isCollidable(),
                 collisionDamage,
                 getObservers()

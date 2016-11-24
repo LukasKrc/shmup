@@ -1,18 +1,18 @@
 package lt.Shmup.Main.GameObject.Components.Renderables;
 
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
+import lt.Shmup.Main.GameObject.Renderable;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 
 import java.awt.*;
 
-public class NullRenderable implements EntityAwareRenderable {
+public class NullRenderable implements Renderable {
     @Override
     public void render(Graphics2D graphics, Entity entity) {
 
     }
 
     @Override
-    public EntityAwareRenderable clone() {
+    public Renderable clone() {
         return this;
     }
 }

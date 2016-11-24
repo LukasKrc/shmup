@@ -3,12 +3,12 @@ package lt.Shmup.Main.GameObject.Components.Renderables;
 import lt.Shmup.Main.GameObject.Components.State.Position;
 import lt.Shmup.Main.GameObject.Components.State.Volume;
 import lt.Shmup.Main.GameObject.Components.Updateables.Health.Health;
-import lt.Shmup.Main.GameObject.EntityAwareRenderable;
+import lt.Shmup.Main.GameObject.Renderable;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 
 import java.awt.*;
 
-public class HealthBarGraphics implements EntityAwareRenderable {
+public class HealthBarGraphics implements Renderable {
     private Entity trackedEntity;
     private Color healthColor = new Color(10, 200, 10);
     private Color borderColor = Color.WHITE;
@@ -31,7 +31,7 @@ public class HealthBarGraphics implements EntityAwareRenderable {
     }
 
     @Override
-    public EntityAwareRenderable clone() {
+    public Renderable clone() {
         return new HealthBarGraphics(trackedEntity);
     }
 

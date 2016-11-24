@@ -22,11 +22,6 @@ public class BasicVolume implements Volume {
     }
 
     @Override
-    public Rectangle getBounds() {
-        return new Rectangle((int) width, (int) height);
-    }
-
-    @Override
     public Volume clone() {
         return new BasicVolume(width, height);
     }

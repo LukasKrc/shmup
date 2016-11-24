@@ -1,8 +1,8 @@
 package lt.Shmup.Main.GameObject.Components.Updateables.Movement;
 
-import lt.Shmup.Main.GameObject.EntityAwareUpdateable;
+import lt.Shmup.Main.GameObject.Updateable;
 
-public abstract class Movement implements EntityAwareUpdateable {
+public abstract class Movement implements Updateable {
     private float speedX;
     private float speedY;
 
