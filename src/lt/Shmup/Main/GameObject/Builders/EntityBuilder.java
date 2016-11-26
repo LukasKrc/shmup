@@ -38,12 +38,15 @@ public interface EntityBuilder {
     EntityBuilder setIsCollidable(boolean isCollidable);
     EntityBuilder setCollisionDamage(int collisionDamage);
     Entity getEntity();
+    ButtonEntity getButtonEntity();
     ButtonEntity getButtonEntity(int resetLevel);
     EntityBuilder setText(String text);
     EntityBuilder setButtonStateColors(HashMap<ButtonState, Color> colors);
     EntityBuilder setFont(Font font);
+    TextEntity getTextEntity();
     TextEntity getTextEntity(int resetLevel);
     Entity getEntity(int resetLevel);
     EntityBuilder reset(int resetLevel);
+    DamageCausingEntity getDamageCausingEntity();
     DamageCausingEntity getDamageCausingEntity(int resetLevel);
 }

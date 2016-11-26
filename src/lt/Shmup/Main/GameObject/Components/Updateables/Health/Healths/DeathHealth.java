@@ -1,11 +1,10 @@
 package lt.Shmup.Main.GameObject.Components.Updateables.Health.Healths;
 
-import lt.Shmup.Main.Event;
 import lt.Shmup.Main.GameObject.Components.Updateables.Behaviour.BasicBehaviour;
-import lt.Shmup.Main.GameObject.Factories.Entity.EnemyFactorys.BasicEnemyFactory;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 import lt.Shmup.Main.GameObject.Components.Updateables.Health.Health;
 import lt.Shmup.Main.GameObject.Objects.Identifier;
+import lt.Shmup.Main.Event;
 
 import java.util.HashMap;
 

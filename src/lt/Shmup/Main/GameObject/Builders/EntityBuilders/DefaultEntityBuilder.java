@@ -115,6 +115,11 @@ public class DefaultEntityBuilder implements EntityBuilder {
     }
 
     @Override
+    public DamageCausingEntity getDamageCausingEntity() {
+        return getDamageCausingEntity(RESET_NONE);
+    }
+
+    @Override
     public DamageCausingEntity getDamageCausingEntity(int resetLevel) {
         setNullFields();
         DamageCausingEntity entity = createDamageCausingEntity();
@@ -135,6 +140,11 @@ public class DefaultEntityBuilder implements EntityBuilder {
                 isCollidable,
                 collisionDamage
         );
+    }
+
+    @Override
+    public ButtonEntity getButtonEntity() {
+        return getButtonEntity(RESET_NONE);
     }
 
     @Override
@@ -180,6 +190,11 @@ public class DefaultEntityBuilder implements EntityBuilder {
     public EntityBuilder setFont(Font font) {
         this.font = font;
         return this;
+    }
+
+    @Override
+    public TextEntity getTextEntity() {
+        return getTextEntity(RESET_NONE);
     }
 
     @Override

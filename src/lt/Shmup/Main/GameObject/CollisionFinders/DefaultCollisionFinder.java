@@ -1,9 +1,12 @@
 package lt.Shmup.Main.GameObject.CollisionFinders;
 
 import lt.Shmup.Main.GameObject.CollisionFinder;
+import lt.Shmup.Main.GameObject.Components.State.Position;
+import lt.Shmup.Main.GameObject.Components.State.Volume;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 import lt.Shmup.Main.GameObject.Objects.Identifier;
 
+import java.awt.*;
 import java.util.LinkedList;
 
 public class DefaultCollisionFinder implements CollisionFinder {
@@ -44,6 +47,23 @@ public class DefaultCollisionFinder implements CollisionFinder {
     private boolean doEntitiesIntersect(Entity mainEntity, Entity entity) {
         return entity.getBounds().intersects(
                 mainEntity.getBounds()
+        ) || areEntitiesTouching(mainEntity, entity);
+    }
+
+    private boolean areEntitiesTouching(Entity mainEntity, Entity entity) {
+        Rectangle mainBounds = getIncreasedBounds(mainEntity);
+        Rectangle secondaryBounds = getIncreasedBounds(entity);
+        return mainBounds.intersects(secondaryBounds);
+    }
+
+    private Rectangle getIncreasedBounds(Entity entity) {
+        Position position = entity.getPosition();
+        Volume volume = entity.getVolume();
+        return new Rectangle(
+                (int) position.getX() + 1,
+                (int) position.getY() + 1,
+                (int) volume.getWidth() + 1,
+                (int) volume.getHeight() + 1
         );
     }
 
