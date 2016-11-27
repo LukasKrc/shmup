@@ -31,6 +31,7 @@ import lt.Shmup.Utility;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class DefaultEntityFactory implements EntityFactory {
     private RenderableFactory renderableFactory;
@@ -44,6 +45,7 @@ public class DefaultEntityFactory implements EntityFactory {
     private EnemyFactory randomEnemyFactory;
     private OutOfBoundsChecker outOfBoundsChecker;
     private HashMap<ButtonState, Color> buttonStateColors;
+    private Random random;
 
     public DefaultEntityFactory(
             RenderableFactory renderableFactory,
@@ -61,6 +63,7 @@ public class DefaultEntityFactory implements EntityFactory {
         this.basicEnemyFactory = enemyFactoryFactory.getFactory("basic");
         this.randomEnemyFactory = enemyFactoryFactory.getFactory("random");
         buttonStateColors = renderableFactory.createButtonStateColors();
+        random = new Random();
     }
 
     private void populateConfigs() {

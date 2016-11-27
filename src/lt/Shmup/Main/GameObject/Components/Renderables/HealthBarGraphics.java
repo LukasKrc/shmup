@@ -8,7 +8,7 @@ import lt.Shmup.Main.GameObject.Objects.Entity;
 
 import java.awt.*;
 
-public class HealthBarGraphics implements Renderable {
+public class HealthBarGraphics implements Renderable, Cloneable {
     private Entity trackedEntity;
     private Color healthColor = new Color(10, 200, 10);
     private Color borderColor = Color.WHITE;
