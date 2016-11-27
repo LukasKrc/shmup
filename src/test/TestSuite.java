@@ -15,7 +15,9 @@ import test.lt.Shmup.Main.GameObject.Components.Updateables.Behaviour.BasicBehav
 import test.lt.Shmup.Main.GameObject.Components.Updateables.Behaviour.SpawnerBehaviourTest;
 import test.lt.Shmup.Main.GameObject.Components.Updateables.Collision.HealthCollisions.DefaultHealthCollisionTest;
 import test.lt.Shmup.Main.GameObject.Components.Updateables.Health.Healths.DeathHealthTest;
+import test.lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.LinearMovementTest;
 import test.lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.MovementDecorators.OutOfBoundsDecorators.ReflectDecoratorTest;
+import test.lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.MovementDecorators.OutOfBoundsDecorators.RemovalDecoratorTest;
 
 @RunWith(Suite.class)
 
@@ -33,7 +35,9 @@ import test.lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.M
         SpawnerBehaviourTest.class,
         DefaultHealthCollisionTest.class,
         DeathHealthTest.class,
-        ReflectDecoratorTest.class
+        ReflectDecoratorTest.class,
+        RemovalDecoratorTest.class,
+        LinearMovementTest.class
 })
 
 public class TestSuite {

@@ -13,10 +13,10 @@ public class ReflectDecorator extends OutOfBoundsDecorator {
     @Override
     public void decorate(Entity entity) {
         Movement movement = getMovement();
-        if (isxOutOfBounds()) {
+        if (isXTouchingBound()) {
             movement.setSpeedX(-movement.getSpeedX());
         }
-        if (isyOutOfBounds()) {
+        if (isYTouchingBound()) {
             movement.setSpeedY(-movement.getSpeedY());
         }
     }
