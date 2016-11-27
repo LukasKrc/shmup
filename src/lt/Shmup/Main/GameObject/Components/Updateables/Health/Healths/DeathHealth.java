@@ -28,7 +28,7 @@ public class DeathHealth extends Health {
 
     @Override
     public void update(Entity entity) {
-        if (this.getHealth() < this.getMinimumHealth()) {
+        if (this.getHealth() <= this.getMinimumHealth()) {
             if (entity.getIdentifier() == Identifier.Player) {
                 Event.notify("player_destroyed", null);
             } else if (entity.getIdentifier() == Identifier.Enemy) {

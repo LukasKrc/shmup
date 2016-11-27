@@ -73,6 +73,31 @@ public class DefaultCollisionFinderTest {
         assertSame(secondaryEntity, collidedEntities.get(0));
     }
 
+    @Test
+    public void returnsNothingWhenEntitiesAreNotOverlapingOrTouching() {
+        Entity mainEntity = getCollidableEntity();
+        setCollisionData(mainEntity, 0, 0, 10, 10);
+        Entity secondaryEntity = getCollidableEntity();
+        setCollisionData(secondaryEntity, 11, 11, 10, 10);
+        collisionFinder.addEntity(secondaryEntity);
+        List<Entity> collidedEntities =
+                collisionFinder.getCollidedEntities(mainEntity);
+        assertEquals(true, collidedEntities.isEmpty());
+    }
+
+    @Test
+    public void returnsNothingWhenEntityIsRemvoed() {
+        Entity mainEntity = getCollidableEntity();
+        setCollisionData(mainEntity, 0, 0, 10, 10);
+        Entity secondaryEntity = getCollidableEntity();
+        setCollisionData(secondaryEntity, 0, 0, 10, 10);
+        collisionFinder.addEntity(secondaryEntity);
+        collisionFinder.removeEntity(secondaryEntity);
+        List<Entity> collidedEntities =
+                collisionFinder.getCollidedEntities(mainEntity);
+        assertEquals(true, collidedEntities.isEmpty());
+    }
+
     private Entity getCollidableEntity() {
         entityBuilder.setIsCollidable(true);
         return entityBuilder.getEntity(EntityBuilder.RESET_ALL);

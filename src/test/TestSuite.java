@@ -11,6 +11,11 @@ import test.lt.Shmup.Main.Command.Commands.StopGameCommandTest;
 import test.lt.Shmup.Main.EventTest;
 import test.lt.Shmup.Main.GameObject.Builders.EntityBuilders.DefaultEntityBuilderTest;
 import test.lt.Shmup.Main.GameObject.CollisionFinders.DefaultCollisionFinderTest;
+import test.lt.Shmup.Main.GameObject.Components.Updateables.Behaviour.BasicBehaviourTest;
+import test.lt.Shmup.Main.GameObject.Components.Updateables.Behaviour.SpawnerBehaviourTest;
+import test.lt.Shmup.Main.GameObject.Components.Updateables.Collision.HealthCollisions.DefaultHealthCollisionTest;
+import test.lt.Shmup.Main.GameObject.Components.Updateables.Health.Healths.DeathHealthTest;
+import test.lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.MovementDecorators.OutOfBoundsDecorators.ReflectDecoratorTest;
 
 @RunWith(Suite.class)
 
@@ -23,7 +28,12 @@ import test.lt.Shmup.Main.GameObject.CollisionFinders.DefaultCollisionFinderTest
         StopGameCommandTest.class,
         HashMapCommandStoreTest.class,
         DefaultEntityBuilderTest.class,
-        DefaultCollisionFinderTest.class
+        DefaultCollisionFinderTest.class,
+        BasicBehaviourTest.class,
+        SpawnerBehaviourTest.class,
+        DefaultHealthCollisionTest.class,
+        DeathHealthTest.class,
+        ReflectDecoratorTest.class
 })
 
 public class TestSuite {

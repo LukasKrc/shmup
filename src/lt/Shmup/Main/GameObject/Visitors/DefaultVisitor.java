@@ -47,7 +47,7 @@ public class DefaultVisitor implements Visitor {
 
     @Override
     public void visitUpdating(DamageCausingEntity entity) {
-        visitUpdating((Entity) entity);
         healthCollision.update(entity);
+        visitUpdating((Entity) entity);
     }
 }

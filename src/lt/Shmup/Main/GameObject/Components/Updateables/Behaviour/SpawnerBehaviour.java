@@ -29,7 +29,7 @@ public class SpawnerBehaviour implements Updateable {
 
     @Override
     public void update(Entity entity) {
-        long currentTime = (long) System.currentTimeMillis()/ 1000;
+        long currentTime = System.currentTimeMillis()/ 1000;
         if ((currentTime - lastLevelTime) > levelInterval) {
             level++;
             lastLevelTime = currentTime;

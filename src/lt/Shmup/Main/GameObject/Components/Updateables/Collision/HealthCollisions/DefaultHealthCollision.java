@@ -46,6 +46,9 @@ public class DefaultHealthCollision implements HealthCollision {
             Entity collidedEntity,
             DamageCausingEntity projectile
     ) {
+        if (collidedEntity.getIdentifier() == projectile.getIdentifier()) {
+            return;
+        }
         projectile.notifyObservers(
                 "damage_taken",
                 getProjectileSelfDamageData()

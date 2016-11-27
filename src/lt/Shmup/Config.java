@@ -48,6 +48,7 @@ public class Config {
     }
 
     public static HashMap<String, String> map(String path) {
+        init();
         String[] splitPath = config.getSplitString(path);
         JsonObject node = config.getNodeByDescending(
                 splitPath

@@ -1,6 +1,7 @@
 package lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.MovementDecorators;
 
 import lt.Shmup.Main.GameObject.Components.State.Position;
+import lt.Shmup.Main.GameObject.Components.State.Volume;
 import lt.Shmup.Main.GameObject.Objects.Entity;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movement;
 import lt.Shmup.Main.GameObject.Components.Updateables.Movement.Movements.MovementDecorator;
@@ -39,14 +40,18 @@ public abstract class OutOfBoundsDecorator extends MovementDecorator {
     }
 
     private void handleDecoration(Entity entity) {
-        initializeOutOfBoundsFlags(entity.getPosition());
+        initializeOutOfBoundsFlags(entity.getPosition(), entity.getVolume());
         decorate(entity);
         xOutOfBounds = yOutOfBounds = false;
     }
 
-    private void initializeOutOfBoundsFlags(Position position) {
-        xOutOfBounds = outOfBoundsChecker.isXOutOfBounds(position.getX());
-        yOutOfBounds = outOfBoundsChecker.isYOutOfBounds(position.getY());
+    private void initializeOutOfBoundsFlags(Position position, Volume volume) {
+        float positionX = position.getX();
+        float positionY = position.getY();
+        xOutOfBounds = outOfBoundsChecker.isXOutOfBounds(positionX)
+            || outOfBoundsChecker.isXOutOfBounds(positionX + volume.getWidth());
+        yOutOfBounds = outOfBoundsChecker.isYOutOfBounds(positionY)
+            || outOfBoundsChecker.isYOutOfBounds(positionY + volume.getHeight());
     }
 
     public abstract void decorate(Entity entity);
